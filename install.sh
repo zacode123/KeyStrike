@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==========================================================
-# KeyStrike - BLE HID Keyboard Tool
+# KeyStrike - BLE HID Keyboard Emulation Tool
 # ==========================================================
 # Copyright (c) 2026 zacode123
 #
