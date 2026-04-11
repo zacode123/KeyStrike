@@ -1,28 +1,24 @@
+<div align="center">
+  <img width="512" height="279" alt="image_4750e815-88d2-4990-93fa-3b9eb9e1002d" src="https://github.com/user-attachments/assets/799ecca7-1b43-477b-8815-0d8cc31c902e"/>
+  <h1>⚡ KeyStrike v4.2</h1>
+</div>
 
-██╗  ██╗███████╗██╗   ██╗███████╗████████╗██████╗ ██╗██╗  ██╗███████╗
-██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔══██╗██║██║ ██╔╝██╔════╝
-█████╔╝ █████╗   ╚████╔╝ ███████╗   ██║   ██████╔╝██║█████╔╝ █████╗  
-██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║   ██║   ██╔══██╗██║██╔═██╗ ██╔══╝  
-██║  ██╗███████╗   ██║   ███████║   ██║   ██║  ██║██║██║  ██╗███████╗
-╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝
-
-> **ESP32 BLE HID keyboard emulation tool with CLI control, key injection, and modular automation support.**
->
+> **ESP32 BLE HID keyboard emulation tool.**
 
 ---
 
 ### 📌 Description
 **KeyStrike** is an ESP32-based BLE HID keyboard emulation tool that allows wireless keystroke injection using Bluetooth Low Energy.
-It provides a CLI interface for Linux and Termux, enabling automation through a modular key system and JSON-based key library.
+It provides a CLI interface for Linux and Termux, enabling HID Keyboard Emulation through BLE and an enormous key library.
 
 ### ⚙️ Features
-+ ESP32 BLE HID Keyboard Emulation.
-+ CLI-based control system.
-+ Key injection.
-+ Huge Key library with Android and desktop controls. (currently IOS is not supported)
-+ Lightweight and fast installer.
-+ Linux & Termux support.
-+ Update system via script.
+- ESP32 BLE HID Keyboard Emulation.
+- CLI-based control system.
+- Key injection.
+- Huge Key library with Android and desktop controls. (currently IOS is not supported)
+- Lightweight and fast installer.
+- Linux & Termux support.
+- Update system via script.
 
 ---
 
@@ -43,6 +39,9 @@ sudo apt install curl -y
 
 curl -sL http://your-link/install.sh | bash
 ```
+
+---
+
 ### 🚀 Commands
 **Run Tool**
 ```bash
@@ -57,6 +56,7 @@ keystrike update
 ```bash
 keystrike uninstall
 ```
+
 ---
 
 ### ⚠️ Safety Notice
