@@ -542,7 +542,6 @@ process_cmd() {
         echo ""
         echo -e "\e[1;33mGENERAL:\e[0m"
         echo -e "  \e[1;32mHELP / ?\e[0m              Show this help"
-        echo -e "  \e[1;32mKEYS / K\e[0m              Show available keys with info"
         echo -e "  \e[1;32mRESTART / RST\e[0m         Restart ESP32"
         echo -e "  \e[1;32mSYSINFO\e[0m               Get system info"
         echo -e "  \e[1;32mDELAY <TIME>\e[0m          Pause the script for specified seconds"
@@ -570,6 +569,8 @@ process_cmd() {
         echo -e "  \e[1;32mRELEASE <KEY|HEX>\e[0m     Release specific key"
         echo -e "  \e[1;32mTYPE    <TEXT>\e[0m        Type text"
         echo ""
+        echo -e "\e[1;33mKEY LIBRARY:\e[0m"
+        echo -e "  \e[0;36mUse 'KEYS / K HELP' to view the key library\e[0m"
         echo -e "\e[1;36m========================================\e[0m" | lolcat
         echo ""
         print_prompt
@@ -645,7 +646,7 @@ parse_args() {
                 ;;
 
            update)
-               curl -sL "https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh" | bash -s update
+               curl -sL "https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh" | bash
 
            uninstall)
                 USR="${PREFIX:-/usr}"
@@ -683,6 +684,8 @@ parse_args() {
                 echo -e "   \e[1;32m-h, --help\e[0m        Show this help"
                 echo -e "   \e[1;32m-v, --version\e[0m     Show version info"
                 echo -e "   \e[1;32m-l, --loop <n>\e[0m    Execute payload n times (default: 1)"
+                echo -e "   \e[1;32mupdate\e[0m            Update KeyStrike to the latest version"
+                echo -e "   \e[1;32muninstall\e[0m            Uninstall KeyStrike from system"
                 echo ""
                 echo -e " \e[1;33mPAYLOAD:\e[0m"
                 echo -e "   Provide a \e[1;36m.txt\e[0m file with commands to auto-run"
