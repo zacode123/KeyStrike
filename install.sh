@@ -44,8 +44,8 @@ if [[ -n "$ORIGINAL_VERSION" && "$ORIGINAL_VERSION" == "$VERSION" ]]; then echo 
 else [[ -n "$ORIGINAL_VERSION" ]] && echo -e "${C_YELLOW}[*] Updating KeyStrike $ORIGINAL_VERSION to $VERSION...${C_RESET}" || echo -e "${C_YELLOW}[*] Installing KeyStrike $VERSION...${C_RESET}"
 fi
 mkdir -p "$LIB_DIR"
-curl -sL "$REPO_URL/keystrike" -o keystrike
-curl -sL "$REPO_URL/key_library.json" -o key_library.json
+curl -fsL "$REPO_URL/keystrike" -o keystrike
+curl -fsL "$REPO_URL/key_library.json" -o key_library.json
 [[ ! -f keystrike || ! -f key_library.json ]] && { echo -e "${C_RED}[!] Download failed${C_RESET}"; exit 1; }
 cp keystrike "$INSTALL_DIR"
 cp key_library.json "$LIB_DIR/"
