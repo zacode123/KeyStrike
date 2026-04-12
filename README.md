@@ -1,6 +1,6 @@
 <div align="center">
   <img width="512" height="279" alt="image_4750e815-88d2-4990-93fa-3b9eb9e1002d" src="https://github.com/user-attachments/assets/799ecca7-1b43-477b-8815-0d8cc31c902e"/>
-  <h1>⚡ KeyStrike v4.2</h1>
+  <h1>⚡ KeyStrike v4.3</h1>
 </div>
 
 > **ESP32 BLE HID keyboard emulation tool.**
