@@ -29,8 +29,8 @@
 # OR OTHER DEALINGS IN THE SOFTWARE.
 # ==========================================================
 set -e
-VERSION="v4.2"
-ORIGINAL_VERSION=$(keystrike -v | grep -oE 'v[0-9]+\.[0-9]+')
+VERSION="v4.3"
+ORIGINAL_VERSION=$(keystrike -v 2>&1 | tr -d '\033' | sed 's/\[[0-9;]*m//g' | grep -o 'v[0-9.]*')
 USR="${PREFIX:-/usr}"
 INSTALL_DIR="$USR/bin"
 LIB_DIR="$USR/share/keystrike"
