@@ -677,12 +677,18 @@ parse_args() {
 
            update)
                curl -sL "https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh" | bash
+               trap - EXIT
+               exit 0
+               ;;
 
            uninstall)
                 USR="${PREFIX:-/usr}"
                 echo "[*] Uninstalling KeyStrike..."
                 rm -f "$USR/bin/keystrike" "$USR/share/keystrike"
                 echo "[✓] KeyStrike removed"
+                trap - EXIT
+                exit 0
+                ;;
 
             -v|--version)
                 echo ""
@@ -715,7 +721,7 @@ parse_args() {
                 echo -e "   \e[1;32m-v, --version\e[0m     Show version info"
                 echo -e "   \e[1;32m-l, --loop <n>\e[0m    Execute payload n times (default: 1)"
                 echo -e "   \e[1;32mupdate\e[0m            Update KeyStrike to the latest version"
-                echo -e "   \e[1;32muninstall\e[0m            Uninstall KeyStrike from system"
+                echo -e "   \e[1;32muninstall\e[0m         Uninstall KeyStrike from system"
                 echo ""
                 echo -e " \e[1;33mPAYLOAD:\e[0m"
                 echo -e "   Provide a \e[1;36m.txt\e[0m file with commands to auto-run"
