@@ -30,7 +30,7 @@
 # ==========================================================
 set -e
 VERSION="v4.3"
-ORIGINAL_VERSION=$(keystrike -v 2>&1 | tr -d '\033' | sed 's/\[[0-9;]*m//g' | grep -o 'v[0-9.]*')
+ORIGINAL_VERSION=$(keystrike -v 2>/dev/null | tr -d '\033' | sed 's/\[[0-9;]*m//g' | grep -o 'v[0-9.]*' || true)
 USR="${PREFIX:-/usr}"
 INSTALL_DIR="$USR/bin"
 LIB_DIR="$USR/share/keystrike"
@@ -43,15 +43,17 @@ C_CYAN="\e[1;36m"
 if [[ -n "$ORIGINAL_VERSION" && "$ORIGINAL_VERSION" == "$VERSION" ]]; then echo -e "${C_GREEN}[✓] KeyStrike is already at the latest version ($VERSION)${C_RESET}"
 else [[ -n "$ORIGINAL_VERSION" ]] && echo -e "${C_YELLOW}[*] Updating KeyStrike $ORIGINAL_VERSION to $VERSION...${C_RESET}" || echo -e "${C_YELLOW}[*] Installing KeyStrike $VERSION...${C_RESET}"
 fi
-mkdir -p "$INSTALL_DIR" "$LIB_DIR"
+mkdir -p "$LIB_DIR"
 curl -sL "$REPO_URL/keystrike" -o keystrike
 curl -sL "$REPO_URL/key_library.json" -o key_library.json
 [[ ! -f keystrike || ! -f key_library.json ]] && { echo -e "${C_RED}[!] Download failed${C_RESET}"; exit 1; }
-cp keystrike "$INSTALL_DIR/keystrike"
+cp keystrike "$INSTALL_DIR"
 cp key_library.json "$LIB_DIR/"
 chmod +x "$INSTALL_DIR/keystrike"
 rm -f keystrike key_library.json install.sh
-[[ -n "$ORIGINAL_VERSION" ]] && echo -e "${C_GREEN}[✓] KeyStrike update completed successfully${C_RESET}" || {
+if [[ -n "$ORIGINAL_VERSION" ]]; then
+    [[ "$ORIGINAL_VERSION" != "$VERSION" ]] && echo -e "${C_GREEN}[✓] KeyStrike update completed successfully${C_RESET}"
+else
     echo -e "${C_GREEN}[✓] KeyStrike installed successfully${C_RESET}"
     echo -e "${C_CYAN}[*] Run: keystrike${C_RESET}"
-}
+fi
