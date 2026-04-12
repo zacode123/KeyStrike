@@ -29,7 +29,7 @@ apt update
 apt upgrade -y  
 apt install curl -y  
 
-curl -sL https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh | bash
+curl -fsL https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh | bash
 ```
 **🔹 Linux**
 ```bash
@@ -37,7 +37,7 @@ sudo apt update
 sudo apt upgrade -y  
 sudo apt install curl -y  
 
-curl -sL https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh | bash
+curl -fsL https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh | bash
 ```
 
 ---
