@@ -538,7 +538,7 @@ process_cmd() {
                 printf '\n\033[1;33mFilter Guide:\033[0m\n'
                 printf '  \033[1;34m%-14s\033[0m \033[0;37m→ Show only Desktop-supported keys\033[0m\n' "D / DESKTOP"
                 printf '  \033[1;34m%-14s\033[0m \033[0;37m→ Show cross-platform keys (Android + Desktop)\033[0m\n' "G / GLOBAL"
-                printf '  \033[1;34m%-14s\033[0m \033[0;37m→ shows all available keys for that type\033[0m\n' "No filter"
+                printf '  No filter shows all available keys for that type\033[0m\n'
                 printf '\n\033[1;33mBehavior Notes:\033[0m\n'
                 printf '  \033[0;36m•\033[0m \033[0;37mFilters apply to ALL key categories except APPS\033[0m\n'
                 printf '  \033[0;36m•\033[0m \033[0;37mAPPS are always global by design\033[0m\n'
