@@ -35,6 +35,7 @@ ESP_IP=""
 PORT=80
 LOOP=1
 PAYLOAD_FILE=""
+INTERACTIVE_MODE=false
 ESP_FILE="$HOME/.keystrike_esp"
 HISTFILE="$HOME/.keystrike_history"
 HISTSIZE=2000
@@ -379,7 +380,7 @@ get_usage_page() {
 process_cmd() {
     CMD="$1"
 
-    [[ -z "$CMD" ]] && print_prompt && return
+    [[ -z "$CMD" || "$CMD" == REM* ]] && print_prompt && return
 
     # ─── BLE / WIFI ─────────────────────────────
     [[ "$CMD" == BLE* ]]   && echo "[>] $CMD" | lolcat && send "$CMD" && return
@@ -664,11 +665,11 @@ process_cmd() {
         echo -e "  \e[1;32mWIFI RESET\e[0m            Reset WiFi settings"
         echo ""
         echo -e "\e[1;33mKEYBOARD:\e[0m"
-        echo -e "  \e[1;32mPRESS   <KEY|HEX> [MOD]\e[0m   Press key (optional modifier, e.g. CTRL+R)"
-        echo -e "  \e[1;32mTAP     <KEY|HEX> [MOD]\e[0m   Tap key (optional modifier, e.g. CTRL+R)"
-        echo -e "  \e[1;32mRELEASE ALL\e[0m               Release all keys"
-        echo -e "  \e[1;32mRELEASE <KEY|HEX>\e[0m         Release specific key"
-        echo -e "  \e[1;32mTYPE    <TEXT>\e[0m            Type text"
+        echo -e "  \e[1;32mPRESS   [MOD] <KEY>\e[0m       Press key (optional modifier, e.g. CTRL+R)"
+        echo -e "  \e[1;32mTAP     [MOD] <KEY>\e[0m       Tap key (optional modifier, e.g. CTRL+R)"
+        echo -e "  \e[1;32mRELEASE         ALL\e[0m       Release all keys"
+        echo -e "  \e[1;32mRELEASE       <KEY>\e[0m       Release specific key"
+        echo -e "  \e[1;32mTYPE         <TEXT>\e[0m       Type text or any charecter"
         echo ""
         echo -e "\e[1;33mKEY LIBRARY:\e[0m"
         echo -e "  \e[0;36mUse 'KEYS / K HELP' to view the key library\e[0m"
@@ -705,6 +706,7 @@ run_payload() {
 # ─── Interactive ────────────────────────────────────────────
 interactive() {
     log_info "Interactive mode started."
+    interactive_mode=true
     touch "$HISTFILE"
     history -c
     history -r
@@ -723,7 +725,7 @@ interactive() {
 # ─── Print Prompt ───────────────────────────────────────────
 print_prompt() {
     PS=$'\n\e[1;32m╔═══\e[1;36m⟦KeyStrike-'"$VERSION"$'@'"$ESP_IP"$'\e[1;32m⟧═══╗\n\e[1;33m└────╼ \e[1;36m❯❯❯\e[0m'
-    printf "$PS"
+    [[ $INTERACTIVE_MODE == true ]] && printf "%s" "$PS"
 }
 
 # ─── Args ───────────────────────────────────────────────────
