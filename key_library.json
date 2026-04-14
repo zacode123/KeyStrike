@@ -1,0 +1,945 @@
+{
+    "info": "Production-Ready BLE HID Key Library - Global keys (), Android-specific, Desktop-specific, Numbers (0-9), Letters (A-Z/a-z), Modifiers",
+    "PLAY": {
+        "info": "Start media playback (HID Consumer Play)",
+        "hex": "0x00B0",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "PAUSE": {
+        "info": "Pause media playback",
+        "hex": "0x00B1",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "REC": {
+        "info": "Start/stop recording media input",
+        "hex": "0x00B2",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "FAST_FW": {
+        "info": "Fast forward media stream",
+        "hex": "0x00B3",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "REWIND": {
+        "info": "Rewind media stream",
+        "hex": "0x00B4",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "NEXT_TRACK": {
+        "info": "Skip to next track",
+        "hex": "0x00B5",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "PREV_TRACK": {
+        "info": "Return to previous track",
+        "hex": "0x00B6",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "STOP": {
+        "info": "Stop media playback",
+        "hex": "0x00B7",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "EJECT": {
+        "info": "Eject removable media",
+        "hex": "0x00B8",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "RANDOM_PLAY": {
+        "info": "Toggle shuffle/random playback",
+        "hex": "0x00B9",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "PLAY_PAUSE": {
+        "info": "Toggle play/pause",
+        "hex": "0x00CD",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "SKIP": {
+        "info": "Skip and immediately play next track",
+        "hex": "0x00CE",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "MUTE": {
+        "info": "Mute audio output",
+        "hex": "0x00E2",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "VOL_UP": {
+        "info": "Increase volume",
+        "hex": "0x00E9",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "VOL_DOWN": {
+        "info": "Decrease volume",
+        "hex": "0x00EA",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "MEDIA_BASS_UP": {
+        "info": "Bass Increment",
+        "hex": "0x0152",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "MEDIA_BASS_DOWN": {
+        "info": "Bass Decrement",
+        "hex": "0x0153",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "MEDIA_TREBLE_UP": {
+        "info": "Treble Increment",
+        "hex": "0x0154",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "MEDIA_TREBLE_DOWN": {
+        "info": "Treble Decrement",
+        "hex": "0x0155",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "BASS_BOOST": {
+        "info": "Enable bass boost effect",
+        "hex": "0x00E5",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "BN_UP": {
+        "info": "Increase screen brightness",
+        "hex": "0x006F",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "BN_DOWN": {
+        "info": "Decrease screen brightness",
+        "hex": "0x0070",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "DISPLAY_BL": {
+        "info": "Toggle display backlight",
+        "hex": "0x007A",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "KB_BL_UP": {
+        "info": "Increase keyboard backlight brightness",
+        "hex": "0x0079",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "KB_BL_DOWN": {
+        "info": "Decrease keyboard backlight brightness",
+        "hex": "0x0078",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "KB_BL_TOGGLE": {
+        "info": "Toggle keyboard backlight",
+        "hex": "0x007C",
+        "type": "media_key",
+        "platform": "desktop"
+    },
+    "SELECT": {
+        "info": "Open media selection application",
+        "hex": "0x0183",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "SEARCH": {
+        "info": "Open browser search",
+        "hex": "0x0221",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "STOP": {
+        "info": "Stop current action (e.g., stop page loading in browser or stop media playback)",
+        "hex": "0x0226",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "REFRESH": {
+        "info": "Reload or refresh current page or content (e.g., refresh a web page or file view)",
+        "hex": "0x0227",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "BOOKMARKS": {
+        "info": "Open bookmarks or favorites list (e.g., browser bookmarks or saved pages)",
+        "hex": "0x022A",
+        "type": "media_key",
+        "platform": "global"
+    },
+    "BROWSER": {
+        "info": "AC Internet Browser",
+        "hid": "0x0196",
+        "type": "app",
+        "platform": "global"
+    },
+    "EMAIL": {
+        "info": "AL Email Reader",
+        "hid": "0x018A",
+        "type": "app",
+        "platform": "global"
+    },
+    "CALCULATOR": {
+        "info": "AL Calculator",
+        "hid": "0x0192",
+        "type": "app",
+        "platform": "global"
+    },
+    "FILE_MANAGER": {
+        "info": "AL Local Machine Browser (File Manager)",
+        "hid": "0x0194",
+        "type": "app",
+        "platform": "global"
+    },
+    "CONTACTS": {
+        "info": "AL Contacts / Address Book",
+        "hid": "0x0183",
+        "type": "app",
+        "platform": "global"
+    },
+    "CALENDAR": {
+        "info": "AL Calendar",
+        "hid": "0x018E",
+        "type": "app",
+        "platform": "global"
+    },
+    "PHONE": {
+        "info": "AL Telephone",
+        "hid": "0x0190",
+        "type": "app",
+        "platform": "global"
+    },
+    "VOICEMAIL": {
+        "info": "AL Voice Mail",
+        "hid": "0x018C",
+        "type": "app",
+        "platform": "global"
+    },
+    "MUSIC": {
+        "info": "AL Audio Player",
+        "hid": "0x0188",
+        "type": "app",
+        "platform": "global"
+    },
+    "F1": {
+        "info": "Help/manual",
+        "hex": "0x3A",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F2": {
+        "info": "Rename",
+        "hex": "0x3B",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F3": {
+        "info": "Search/find",
+        "hex": "0x3C",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F4": {
+        "info": "Close window",
+        "hex": "0x3D",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F5": {
+        "info": "Refresh/reload",
+        "hex": "0x3E",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F6": {
+        "info": "App-dependent",
+        "hex": "0x3F",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F7": {
+        "info": "Spell check",
+        "hex": "0x40",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F8": {
+        "info": "Boot options",
+        "hex": "0x41",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F9": {
+        "info": "App-dependent",
+        "hex": "0x42",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F10": {
+        "info": "Menu bar",
+        "hex": "0x43",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F11": {
+        "info": "Fullscreen toggle",
+        "hex": "0x44",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F12": {
+        "info": "Developer tools",
+        "hex": "0x45",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F13": {
+        "info": "F13 key",
+        "hex": "0x68",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F14": {
+        "info": "F14 key",
+        "hex": "0x69",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F15": {
+        "info": "F15 key",
+        "hex": "0x6A",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F16": {
+        "info": "F16 key",
+        "hex": "0x6B",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F17": {
+        "info": "F17 key",
+        "hex": "0x6C",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F18": {
+        "info": "F18 key",
+        "hex": "0x6D",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F19": {
+        "info": "F19 key",
+        "hex": "0x6E",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F20": {
+        "info": "F20 key",
+        "hex": "0x6F",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F21": {
+        "info": "F21 key",
+        "hex": "0x70",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F22": {
+        "info": "F22 key",
+        "hex": "0x71",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F23": {
+        "info": "F23 key",
+        "hex": "0x72",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "F24": {
+        "info": "F24 key",
+        "hex": "0x73",
+        "platform": "global",
+        "type": "function_key"
+    },
+    "INSERT": {
+        "info": "Insert key",
+        "hex": "0x49",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "HOME": {
+        "info": "Go to home screen",
+        "hex": "0x0223",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "BACK": {
+        "info": "Go back one screen/navigation hierarchy level",
+        "hex": "0x0224",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "FORWARD": {
+        "info": "Navigate forward (e.g., go to the next page in a web browser or file explorer history)",
+        "hex": "0x0225",
+        "type": "navigation_key",
+        "platform": "global"
+    },
+    "SOL": {
+        "info": "Start of Line - Home key",
+        "hex": "0x4A",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "SCROLL_UP": {
+        "info": "Scroll Up",
+        "hex": "0x4B",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "SCROLL_DOWN": {
+        "info": "Scroll Down",
+        "hex": "0x4E",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "DELETE": {
+        "info": "Delete key",
+        "hex": "0x4C",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "EOL": {
+        "info": "End of Line - End key",
+        "hex": "0x4D",
+        "platform": "global",
+        "type": "navigation_key"
+    },
+    "RIGHT": {
+        "info": "Right arrow",
+        "hex": "0x4F",
+        "platform": "global",
+        "type": "arrow_key"
+    },
+    "LEFT": {
+        "info": "Left arrow",
+        "hex": "0x50",
+        "platform": "global",
+        "type": "arrow_key"
+    },
+    "DOWN": {
+        "info": "Down arrow",
+        "hex": "0x51",
+        "platform": "global",
+        "type": "arrow_key"
+    },
+    "UP": {
+        "info": "Up arrow",
+        "hex": "0x52",
+        "platform": "global",
+        "type": "arrow_key"
+    },
+    "ESC": {
+        "info": "Escape key",
+        "hex": "0x29",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "BACKSPACE": {
+        "info": "Backspace key",
+        "hex": "0x2A",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "SPACE": {
+        "info": "Space bar - insert space character or toggle buttons",
+        "hex": "0x2C",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "TAB": {
+        "info": "Tab key",
+        "hex": "0x2B",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "ENTER": {
+        "info": "Enter/Return key",
+        "hex": "0x28",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "POWER": {
+        "info": "Power button - turn screen on/off or power on/off device",
+        "hex": "0x66",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "SCREENSHOT": {
+        "info": "Screenshot (Print Screen key behavior)",
+        "hex": "0x46",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "CAPS_LOCK": {
+        "info": "Caps Lock",
+        "hex": "0x39",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "NUM_LOCK": {
+        "info": "Num Lock",
+        "hex": "0x53",
+        "platform": "global",
+        "type": "control_key"
+    },
+    "LCTRL": {
+        "info": "Left Control key - modifier for keyboard shortcuts (Ctrl+C, Ctrl+V, etc.)",
+        "hex": "0xE0",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "RCTRL": {
+        "info": "Right Control key - right side modifier for Ctrl combinations",
+        "hex": "0xE4",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "LSHIFT": {
+        "info": "Left Shift key - modifier for uppercase and special symbols",
+        "hex": "0xE1",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "RSHIFT": {
+        "info": "Right Shift key - right side modifier for uppercase",
+        "hex": "0xE5",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "LALT": {
+        "info": "Left Alt key - modifier for Alt combinations (Alt+Tab to switch windows)",
+        "hex": "0xE2",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "RALT": {
+        "info": "Right Alt key - right side modifier for Alt combinations (AltGr on some keyboards)",
+        "hex": "0xE6",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "LWIN": {
+        "info": "Left Windows/Command key - opens start menu on Windows or Cmd on Mac",
+        "hex": "0xE3",
+        "platform": "desktop",
+        "type": "modifier"
+    },
+    "RWIN": {
+        "info": "Right Windows/Command key - right side Windows/Command modifier",
+        "hex": "0xE7",
+        "platform": "desktop",
+        "type": "modifier"
+    },
+    "LGUI": {
+        "info": "Left GUI key - left side GUI modifier",
+        "hex": "0xE3",
+        "platform": "desktop",
+        "type": "modifier"
+    },
+    "RGUI": {
+        "info": "Right GUI key - right side GUI modifier",
+        "hex": "0xE7",
+        "platform": "desktop",
+        "type": "modifier"
+    },
+    "0": { "info": "Number 0 key", "hex": "0x27", "type": "number" },
+    "1": { "info": "Number 1 key", "hex": "0x1E", "type": "number" },
+    "2": { "info": "Number 2 key", "hex": "0x1F", "type": "number" },
+    "3": { "info": "Number 3 key", "hex": "0x20", "type": "number" },
+    "4": { "info": "Number 4 key", "hex": "0x21", "type": "number" },
+    "5": { "info": "Number 5 key", "hex": "0x22", "type": "number" },
+    "6": { "info": "Number 6 key", "hex": "0x23", "type": "number" },
+    "7": { "info": "Number 7 key", "hex": "0x24", "type": "number" },
+    "8": { "info": "Number 8 key", "hex": "0x25", "type": "number" },
+    "9": { "info": "Number 9 key", "hex": "0x26", "type": "number" },
+    "A": {
+        "info": "Letter A key - press alone for lowercase 'a', with Shift for uppercase 'A'",
+        "hex": "0x04",
+        "type": "letter"
+    },
+    "B": {
+        "info": "Letter B key - press alone for lowercase 'b', with Shift for uppercase 'B'",
+        "hex": "0x05",
+        "type": "letter"
+    },
+    "C": {
+        "info": "Letter C key - press alone for lowercase 'c', with Shift for uppercase 'C'",
+        "hex": "0x06",
+        "type": "letter"
+    },
+    "D": {
+        "info": "Letter D key - press alone for lowercase 'd', with Shift for uppercase 'D'",
+        "hex": "0x07",
+        "type": "letter"
+    },
+    "E": {
+        "info": "Letter E key - press alone for lowercase 'e', with Shift for uppercase 'E'",
+        "hex": "0x08",
+        "type": "letter"
+    },
+    "F": {
+        "info": "Letter F key - press alone for lowercase 'f', with Shift for uppercase 'F'",
+        "hex": "0x09",
+        "type": "letter"
+    },
+    "G": {
+        "info": "Letter G key - press alone for lowercase 'g', with Shift for uppercase 'G'",
+        "hex": "0x0A",
+        "type": "letter"
+    },
+    "H": {
+        "info": "Letter H key - press alone for lowercase 'h', with Shift for uppercase 'H'",
+        "hex": "0x0B",
+        "type": "letter"
+    },
+    "I": {
+        "info": "Letter I key - press alone for lowercase 'i', with Shift for uppercase 'I'",
+        "hex": "0x0C",
+        "type": "letter"
+    },
+    "J": {
+        "info": "Letter J key - press alone for lowercase 'j', with Shift for uppercase 'J'",
+        "hex": "0x0D",
+        "type": "letter"
+    },
+    "K": {
+        "info": "Letter K key - press alone for lowercase 'k', with Shift for uppercase 'K'",
+        "hex": "0x0E",
+        "type": "letter"
+    },
+    "L": {
+        "info": "Letter L key - press alone for lowercase 'l', with Shift for uppercase 'L'",
+        "hex": "0x0F",
+        "type": "letter"
+    },
+    "M": {
+        "info": "Letter M key - press alone for lowercase 'm', with Shift for uppercase 'M'",
+        "hex": "0x10",
+        "type": "letter"
+    },
+    "N": {
+        "info": "Letter N key - press alone for lowercase 'n', with Shift for uppercase 'N'",
+        "hex": "0x11",
+        "type": "letter"
+    },
+    "O": {
+        "info": "Letter O key - press alone for lowercase 'o', with Shift for uppercase 'O'",
+        "hex": "0x12",
+        "type": "letter"
+    },
+    "P": {
+        "info": "Letter P key - press alone for lowercase 'p', with Shift for uppercase 'P'",
+        "hex": "0x13",
+        "type": "letter"
+    },
+    "Q": {
+        "info": "Letter Q key - press alone for lowercase 'q', with Shift for uppercase 'Q'",
+        "hex": "0x14",
+        "type": "letter"
+    },
+    "R": {
+        "info": "Letter R key - press alone for lowercase 'r', with Shift for uppercase 'R'",
+        "hex": "0x15",
+        "type": "letter"
+    },
+    "S": {
+        "info": "Letter S key - press alone for lowercase 's', with Shift for uppercase 'S'",
+        "hex": "0x16",
+        "type": "letter"
+    },
+    "T": {
+        "info": "Letter T key - press alone for lowercase 't', with Shift for uppercase 'T'",
+        "hex": "0x17",
+        "type": "letter"
+    },
+    "U": {
+        "info": "Letter U key - press alone for lowercase 'u', with Shift for uppercase 'U'",
+        "hex": "0x18",
+        "type": "letter"
+    },
+    "V": {
+        "info": "Letter V key - press alone for lowercase 'v', with Shift for uppercase 'V'",
+        "hex": "0x19",
+        "type": "letter"
+    },
+    "W": {
+        "info": "Letter W key - press alone for lowercase 'w', with Shift for uppercase 'W'",
+        "hex": "0x1A",
+        "type": "letter"
+    },
+    "X": {
+        "info": "Letter X key - press alone for lowercase 'x', with Shift for uppercase 'X'",
+        "hex": "0x1B",
+        "type": "letter"
+    },
+    "Y": {
+        "info": "Letter Y key - press alone for lowercase 'y', with Shift for uppercase 'Y'",
+        "hex": "0x1C",
+        "type": "letter"
+    },
+    "Z": {
+        "info": "Letter Z key - press alone for lowercase 'z', with Shift for uppercase 'Z'",
+        "hex": "0x1D",
+        "type": "letter"
+    },
+    "!": {
+        "info": "Exclamation mark",
+        "hex": "0x1E",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "@": {
+        "info": "At symbol",
+        "hex": "0x1F",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "#": {
+        "info": "Hash/Pound",
+        "hex": "0x20",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "$": {
+        "info": "Dollar sign",
+        "hex": "0x21",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "%": {
+        "info": "Percent",
+        "hex": "0x22",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "^": {
+        "info": "Caret",
+        "hex": "0x23",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "&": {
+        "info": "Ampersand",
+        "hex": "0x24",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "*": {
+        "info": "Asterisk",
+        "hex": "0x25",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "(": {
+        "info": "Left parenthesis",
+        "hex": "0x26",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    ")": {
+        "info": "Right parenthesis",
+        "hex": "0x27",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "-": {
+        "info": "Hyphen / Minus",
+        "hex": "0x2D",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "_": {
+        "info": "Underscore",
+        "hex": "0x2D",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "=": {
+        "info": "Equals sign",
+        "hex": "0x2E",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "+": {
+        "info": "Plus sign",
+        "hex": "0x2E",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "[": {
+        "info": "Left square bracket",
+        "hex": "0x2F",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "{": {
+        "info": "Left curly brace",
+        "hex": "0x2F",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "]": {
+        "info": "Right square bracket",
+        "hex": "0x30",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "}": {
+        "info": "Right curly brace",
+        "hex": "0x30",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "\\": {
+        "info": "Backslash",
+        "hex": "0x31",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "|": {
+        "info": "Pipe",
+        "hex": "0x31",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    ";": {
+        "info": "Semicolon",
+        "hex": "0x33",
+        "platform": "global",
+        "type": "symbol"
+    },
+    ":": {
+        "info": "Colon",
+        "hex": "0x33",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "'": {
+        "info": "Apostrophe / Single quote",
+        "hex": "0x34",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "\"": {
+        "info": "Double quote",
+        "hex": "0x34",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "`": {
+        "info": "Grave / Backtick",
+        "hex": "0x35",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "~": {
+        "info": "Tilde",
+        "hex": "0x35",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    ",": {
+        "info": "Comma",
+        "hex": "0x36",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "<": {
+        "info": "Less than",
+        "hex": "0x36",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    ".": {
+        "info": "Period / Full stop",
+        "hex": "0x37",
+        "platform": "global",
+        "type": "symbol"
+    },
+    ">": {
+        "info": "Greater than",
+        "hex": "0x37",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "/": {
+        "info": "Forward slash",
+        "hex": "0x38",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "?": {
+        "info": "Question mark",
+        "hex": "0x38",
+        "mod": "SHIFT",
+        "platform": "global",
+        "type": "symbol"
+    },
+    "_notes": {
+        "android": "Android HID keys work on Android devices with BLE HID support. Some fetures marked android are not guarenteed to work on some android devices.",
+        "desktop": "Desktop keys work on Windows, macOS, and Linux computers. Function key behavior may vary by application.",
+        "modifiers": "Use modifiers with other keys: press LCTRL + C for Ctrl+C, LSHIFT + A for uppercase A",
+        "app_launch": "App launch keys (A_CALCULATOR, A_CALENDAR, A_EMAIL, etc.) are Android-specific. Unfortunately, only some system apps (like Settings, Browser, Contacts) are supported. Most third-party apps are not supported via HID keycodes.",
+        "android_apps": "While only system apps are directly supported, on Android you can use URLs/links to open various social media apps like YouTube, Facebook, Instagram, and X if those apps are installed.",
+        "desktop_apps": "While only system apps are directly supported, on desktop you can use Win + R (or LWIN + R) to open the Run dialog and launch various apps like CMD, PowerShell, Notepad, Calculator, File Explorer, Task Manager, VS Code, Chrome, Firefox, Excel, Outlook, VLC, Spotify, Discord, Steam, OBS Studio, and more.",
+        "search_in_app": "SEARCH key works with YouTube, Google Search, Play Store search bars and any app with a search field. Requires app focus. At Home Screen it opens google search. Only works if the Home Screen has the google search widget",
+        "warning": "Some desktop keys (REGEDIT, DISKMGMT) can break system if misused. Use with caution and proper knowledge.",
+        "symbols": "Symbol keys (SYM_*) represent special characters and punctuation. Most require Shift modifier (marked with _SHIFT). Use: LSHIFT + SYM_AT to type @ symbol.",
+        "platform_support": "Keys marked 'global' work on both Android and Desktop. Keys marked 'android' work only on Android. Keys marked 'desktop' are for desktop systems.",
+        "production_ready": "This library version v4.5 includes 200+ HID keys tested against USB HID standard (v1.22), Android AOSP keycodes, and Windows/Linux HID specifications. Production-grade and fully documented."
+    }
+}
