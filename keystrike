@@ -453,10 +453,10 @@ process_cmd() {
         ACTION=$(echo "$CMD" | awk '{print $1}')
         ARG1=$(echo "$CMD" | awk '{print $2}')
         ARG2=$(echo "$CMD" | awk '{print $3}')
-        
+
         if [[ -z "$ARG1" ]]; then
             echo ""
-            log_warn "Usage: $ACTION <KEY> [MODIFIER]"
+            log_warn "Usage: $ACTION [MODIFIER] <KEY>"
             print_prompt
             return
         fi
@@ -468,31 +468,36 @@ process_cmd() {
             return
         fi
 
-        KEY_HEX=$(get_key_hex "$ARG1")
-        if [[ -z "$KEY_HEX" ]]; then
-            echo ""
-            log_warn "Unknown key: $ARG1"
-            print_prompt
-            return
-        fi
-
-        USAGE_PAGE=$(get_usage_page "$ARG1")
-        if [[ -z "$USAGE_PAGE" ]]; then
-            echo ""
-            log_warn "Unknown usage page for: $ARG1"
-            print_prompt
-            return
-        fi
-
         MOD_HEX=""
+        KEY_NAME=""
+
         if [[ -n "$ARG2" ]]; then
-            MOD_HEX=$(get_key_hex "$ARG2")
+            MOD_HEX=$(get_key_hex "$ARG1")
+            KEY_NAME="$ARG2"
             if [[ -z "$MOD_HEX" ]]; then
                 echo ""
-                log_warn "Unknown modifier: $ARG2"
+                log_warn "Unknown modifier: $ARG1"
                 print_prompt
                 return
             fi
+        else
+            KEY_NAME="$ARG1"
+        fi
+
+        KEY_HEX=$(get_key_hex "$KEY_NAME")
+        if [[ -z "$KEY_HEX" ]]; then
+            echo ""
+            log_warn "Unknown key: $KEY_NAME"
+            print_prompt
+            return
+        fi
+
+        USAGE_PAGE=$(get_usage_page "$KEY_NAME")
+        if [[ -z "$USAGE_PAGE" ]]; then
+            echo ""
+            log_warn "Usage page not found for: $KEY_NAME"
+            print_prompt
+            return
         fi
 
         if [[ -n "$MOD_HEX" ]]; then
