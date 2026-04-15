@@ -540,42 +540,55 @@ process_cmd() {
                 ;;
 
             DESKTOP|D)
+                KEY_TYPE="Desktop"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.platform == "desktop") | .key'
                 ;;
             GLOBAL|G)
+                KEY_TYPE="Global"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.platform == "global") | .key'
                 ;;
             LETTERS|LTR)
+                KEY_TYPE="Letter"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "letter")'"$PLATFORM_FILTER"' | .key'
                 ;;
             NUMBERS|NUM)
+                KEY_TYPE="Number"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "number")'"$PLATFORM_FILTER"' | .key'
                 ;;
             SYMBOLS|SYM)
+                KEY_TYPE="Symbol"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "symbol")'"$PLATFORM_FILTER"' | .key'
                 ;;
             MODIFIERS|MOD)
+                KEY_TYPE="Modifier"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "modifier")'"$PLATFORM_FILTER"' | .key'
                 ;;
             CONTROL|CTRL)
+                KEY_TYPE="Control"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "control_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             ARROWS|ARR)
+                KEY_TYPE="Arrow"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "arrow_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             NAVIGATION|NAV)
+                KEY_TYPE="Navigation"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "navigation_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             FUNCTION|FN)
+                KEY_TYPE="Function"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "function_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             MEDIA|MD)
+                KEY_TYPE="Media"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "media_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             APPS|APP)
+                KEY_TYPE="App launch"
                 JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "app") | .key'
                 ;;
             ALL)
+                KEY_TYPE="All"
                 JQ_QUERY='to_entries[] | select(.key != "_notes") | select(.value | type == "object") | .key'
                 ;;
             INFO)
@@ -589,6 +602,7 @@ process_cmd() {
                 while IFS='|' read -r k v; do
                     printf "\033[1;32m%-18s\033[0m : \033[0;37m%s\033[0m\n" "$k" "$v"
                 done
+                return
                 ;;
             *)
                 log_err "Unknown command '${CMD}'"
@@ -598,6 +612,7 @@ process_cmd() {
         esac
         echo ""
         printf "                                  \e[1;35mKeyStrike\e[0m \e[1;33m$VERSION\e[0m \e[1;36mKEY library\e[0m\n"
+        printf "                                  \e[1;32m$KEY_TYPE\e[0m \e[1;37mkeys\e[0m\n"
         printf "   \e[1;36mKEY        \e[1;34m<---------------------------------------------------------------->        \e[1;36mINFO\e[0m\n"
         printf "   \e[1;36m------------------------------------------------------------------------------------------\e[0m\n"
 
