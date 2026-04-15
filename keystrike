@@ -623,19 +623,23 @@ process_cmd() {
                 return
                 ;;
             *)
-                LOOKUP_KEY="${SUBCMD^^}"
-                KEY_DATA=$(echo "$KEYS_JSON" | jq -r --arg k "$LOOKUP_KEY" '.[$k] // empty')
-                echo ""
-                if [[ -n "$KEY_DATA" ]]; then
-                    INFO=$(echo "$KEY_DATA" | jq -r '.info')
-                    HEX=$(echo "$KEY_DATA" | jq -r '.hex // "N/A"')
-                    printf "   \e[1;32m%s\e[0m -- \e[1;37m%s\e[0m [\e[1;33m%s\e[0m]\n" "$LOOKUP_KEY" "$INFO" "$HEX" | lolcat
+                ARG="${SUBCMD^^}"
+                if ! [[ -z "$ARG" ]]; then
+                    KEY_DATA=$(echo "$KEYS_JSON" | jq -r --arg k "$ARG" '.[$k] // empty')
                     echo ""
+                    if [[ -n "$KEY_DATA" ]]; then
+                        INFO=$(echo "$KEY_DATA" | jq -r '.info')
+                        HEX=$(echo "$KEY_DATA" | jq -r '.hex // "N/A"')
+                        printf "   \e[1;32m%s\e[0m -- \e[1;37m%s\e[0m [\e[1;33m%s\e[0m]\n" "$ARG" "$INFO" "$HEX" | lolcat
+                        echo ""
+                    else
+                        log_err "Unknown command or key: '${CMD}'"
+                        log_info "Type: 'KEYS / K HELP' for more info"
+                    fi
+                    return
                 else
-                    log_err "Unknown command or key: '${CMD}'"
-                    log_info "Type: 'KEYS / K HELP' for more info"
+                    JQ_QUERY='to_entries[] | select(.key != "_notes" and (.value | type == "object") '"$PLATFORM_FILTER"') | .key'
                 fi
-                return
                 ;;
         esac
         echo ""
