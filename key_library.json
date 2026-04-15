@@ -940,6 +940,6 @@
         "warning": "Some desktop keys (REGEDIT, DISKMGMT) can break system if misused. Use with caution and proper knowledge.",
         "symbols": "Symbol keys (SYM_*) represent special characters and punctuation. Most require Shift modifier (marked with _SHIFT). Use: LSHIFT + SYM_AT to type @ symbol.",
         "platform_support": "Keys marked 'global' work on both Android and Desktop. Keys marked 'android' work only on Android. Keys marked 'desktop' are for desktop systems.",
-        "production_ready": "This library version v4.6 includes 200+ HID keys tested against USB HID standard (v1.22), Android AOSP keycodes, and Windows/Linux HID specifications. Production-grade and fully documented."
+        "production_ready": "This library version v5.1 includes 200+ HID keys tested against USB HID standard (v1.22), Android AOSP keycodes, and Windows/Linux HID specifications. Production-grade and fully documented."
     }
 }
