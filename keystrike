@@ -304,10 +304,14 @@ reconnect() {
             connect
         fi
     fi
-
-    log_ok "Successfully connected to ESP32"
-    read_esp &
-    READER_PID=$!
+    if check_nc; then
+        log_ok "Successfully connected to ESP32"
+        read_esp &
+        READER_PID=$!
+    else 
+        log_err "Failed to connect to ESP32"
+        exit 1
+    fi
 
     history -a
     history -c
@@ -857,18 +861,19 @@ load_ip
 
 if [[ -n "$ESP_IP" ]]; then
     log_info "Using saved IP: $ESP_IP"
-    if ! nc -z "$ESP_IP" "$PORT" 2>/dev/null; then
+    log_info "Connecting to $ESP_IP..."
+    connect
+    if ! check_nc; then
         log_warn "Saved IP failed"
         clear_ip
         scan_network
+        connect 
     fi
 else
     scan_network
+    log_info "Connecting to $ESP_IP..."
+    connect
 fi
-
-log_info "Connecting to $ESP_IP..."
-
-connect
 
 if check_nc; then
     log_ok "Successfully connected to ESP32"
