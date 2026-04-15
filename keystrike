@@ -396,7 +396,9 @@ process_cmd() {
 
     # ─── VARIABLE RESOLUTION ─────────────────────
     for var in "${!VARS[@]}"; do
-        CMD="${CMD//"$var"/"${VARS[$var]}"}"
+        if [[ "$CMD" == *"$var"* ]]; then
+            CMD="${CMD//"$var"/"${VARS[$var]}"}"
+        fi
     done
 
     # ─── EXEC WITH DYNAMIC CAPTURE ────────────────
@@ -442,14 +444,17 @@ process_cmd() {
 
     # ─── SET VARIABLE ────────────────────────────
     if [[ "$CMD" == SET* ]]; then
+        VAR_NAME=$(echo "$CMD" | awk '{print $2}')
+
         case "$VAR_NAME" in
             "\$VERSION"|"\$IP"|"\$PORT")
                 log_warn "Access Denied: $VAR_NAME is a read-only system constant."
                 return
                 ;;
         esac
-        VAR_NAME=$(echo "$CMD" | awk '{print $2}')
-        VAR_VAL=$(echo "$CMD" | cut -d'=' -f2- | sed 's/^ //')
+
+        VAR_VAL="${CMD#*=}"
+        VAR_VAL="${VAR_VAL# }"
         VARS["$VAR_NAME"]="$VAR_VAL"
         return
     fi
