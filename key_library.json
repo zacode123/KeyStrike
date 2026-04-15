@@ -576,145 +576,221 @@
         "platform": "desktop",
         "type": "modifier"
     },
-    "0": { "info": "Number 0 key", "hex": "0x27", "type": "number" },
-    "1": { "info": "Number 1 key", "hex": "0x1E", "type": "number" },
-    "2": { "info": "Number 2 key", "hex": "0x1F", "type": "number" },
-    "3": { "info": "Number 3 key", "hex": "0x20", "type": "number" },
-    "4": { "info": "Number 4 key", "hex": "0x21", "type": "number" },
-    "5": { "info": "Number 5 key", "hex": "0x22", "type": "number" },
-    "6": { "info": "Number 6 key", "hex": "0x23", "type": "number" },
-    "7": { "info": "Number 7 key", "hex": "0x24", "type": "number" },
-    "8": { "info": "Number 8 key", "hex": "0x25", "type": "number" },
-    "9": { "info": "Number 9 key", "hex": "0x26", "type": "number" },
+    "0": {
+        "info": "Number 0 key", 
+        "hex": "0x27",
+        "type": "number",
+        "platform": "global"
+    },
+    "1": {
+        "info": "Number 1 key", 
+        "hex": "0x1E",
+        "type": "number",
+        "platform": "global"
+    },
+    "2": { 
+        "info": "Number 2 key",
+        "hex": "0x1F", 
+        "type": "number",
+        "platform": "global"
+    },
+    "3": { 
+        "info": "Number 3 key", 
+        "hex": "0x20", 
+        "type": "number",
+        "platform": "global"
+    },
+    "4": {
+        "info": "Number 4 key", 
+        "hex": "0x21", 
+        "type": "number",
+        "platform": "global"
+    },
+    "5": { 
+        "info": "Number 5 key",
+        "hex": "0x22", 
+        "type": "number",
+        "platform": "global"
+    },
+    "6": { 
+        "info": "Number 6 key", 
+        "hex": "0x23", 
+        "type": "number",
+        "platform": "global"
+    },
+    "7": {
+        "info": "Number 7 key", 
+        "hex": "0x24", 
+        "type": "number",
+        "platform": "global"
+    },
+    "8": {
+        "info": "Number 8 key", 
+        "hex": "0x25", 
+        "type": "number",
+        "platform": "global"
+    },
+    "9": { 
+        "info": "Number 9 key", 
+        "hex": "0x26", 
+        "type": "number",
+        "platform": "global"
+    },
     "A": {
         "info": "Letter A key - press alone for lowercase 'a', with Shift for uppercase 'A'",
         "hex": "0x04",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "B": {
         "info": "Letter B key - press alone for lowercase 'b', with Shift for uppercase 'B'",
         "hex": "0x05",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "C": {
         "info": "Letter C key - press alone for lowercase 'c', with Shift for uppercase 'C'",
         "hex": "0x06",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "D": {
         "info": "Letter D key - press alone for lowercase 'd', with Shift for uppercase 'D'",
         "hex": "0x07",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "E": {
         "info": "Letter E key - press alone for lowercase 'e', with Shift for uppercase 'E'",
         "hex": "0x08",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "F": {
         "info": "Letter F key - press alone for lowercase 'f', with Shift for uppercase 'F'",
         "hex": "0x09",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "G": {
         "info": "Letter G key - press alone for lowercase 'g', with Shift for uppercase 'G'",
         "hex": "0x0A",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "H": {
         "info": "Letter H key - press alone for lowercase 'h', with Shift for uppercase 'H'",
         "hex": "0x0B",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "I": {
         "info": "Letter I key - press alone for lowercase 'i', with Shift for uppercase 'I'",
         "hex": "0x0C",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "J": {
         "info": "Letter J key - press alone for lowercase 'j', with Shift for uppercase 'J'",
         "hex": "0x0D",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "K": {
         "info": "Letter K key - press alone for lowercase 'k', with Shift for uppercase 'K'",
         "hex": "0x0E",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "L": {
         "info": "Letter L key - press alone for lowercase 'l', with Shift for uppercase 'L'",
         "hex": "0x0F",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "M": {
         "info": "Letter M key - press alone for lowercase 'm', with Shift for uppercase 'M'",
         "hex": "0x10",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "N": {
         "info": "Letter N key - press alone for lowercase 'n', with Shift for uppercase 'N'",
         "hex": "0x11",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "O": {
         "info": "Letter O key - press alone for lowercase 'o', with Shift for uppercase 'O'",
         "hex": "0x12",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "P": {
         "info": "Letter P key - press alone for lowercase 'p', with Shift for uppercase 'P'",
         "hex": "0x13",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "Q": {
         "info": "Letter Q key - press alone for lowercase 'q', with Shift for uppercase 'Q'",
         "hex": "0x14",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "R": {
         "info": "Letter R key - press alone for lowercase 'r', with Shift for uppercase 'R'",
         "hex": "0x15",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "S": {
         "info": "Letter S key - press alone for lowercase 's', with Shift for uppercase 'S'",
         "hex": "0x16",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "T": {
         "info": "Letter T key - press alone for lowercase 't', with Shift for uppercase 'T'",
         "hex": "0x17",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "U": {
         "info": "Letter U key - press alone for lowercase 'u', with Shift for uppercase 'U'",
         "hex": "0x18",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "V": {
         "info": "Letter V key - press alone for lowercase 'v', with Shift for uppercase 'V'",
         "hex": "0x19",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "W": {
         "info": "Letter W key - press alone for lowercase 'w', with Shift for uppercase 'W'",
         "hex": "0x1A",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "X": {
         "info": "Letter X key - press alone for lowercase 'x', with Shift for uppercase 'X'",
         "hex": "0x1B",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "Y": {
         "info": "Letter Y key - press alone for lowercase 'y', with Shift for uppercase 'Y'",
         "hex": "0x1C",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "Z": {
         "info": "Letter Z key - press alone for lowercase 'z', with Shift for uppercase 'Z'",
         "hex": "0x1D",
-        "type": "letter"
+        "type": "letter",
+        "platform": "global"
     },
     "!": {
         "info": "Exclamation mark",
