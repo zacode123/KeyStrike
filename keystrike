@@ -648,7 +648,7 @@ process_cmd() {
         echo -e "\e[1;33mGENERAL:\e[0m"
         echo -e "  \e[1;32mHELP / ?\e[0m                     Show this help"
         echo -e "  \e[1;32mRESTART / RST\e[0m                Restart ESP32"
-        echo -e "  \e[1;32mRESET\e[0m.                       Reset all saved credentials (Factory Reset)"
+        echo -e "  \e[1;32mRESET\e[0m                        Reset all saved credentials (Factory Reset)"
         echo -e "  \e[1;32mSYSINFO\e[0m                      Get system info"
         echo -e "  \e[1;32mDELAY <TIME>\e[0m                 Pause the script for specified seconds"
         echo -e "  \e[1;32mCLEAR / CLS\e[0m                  Clear screen"
