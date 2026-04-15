@@ -40,6 +40,7 @@ C_RED="\e[1;31m"
 C_GREEN="\e[1;32m"
 C_YELLOW="\e[1;33m"
 C_CYAN="\e[1;36m"
+echo ""
 if [[ -n "$ORIGINAL_VERSION" && "$ORIGINAL_VERSION" == "$VERSION" ]]; then echo -e "${C_GREEN}[✓] KeyStrike is already at the latest version ($VERSION)${C_RESET}"
 else [[ -n "$ORIGINAL_VERSION" ]] && echo -e "${C_YELLOW}[*] Updating KeyStrike $ORIGINAL_VERSION to $VERSION...${C_RESET}" || echo -e "${C_YELLOW}[*] Installing KeyStrike $VERSION...${C_RESET}"
 fi
