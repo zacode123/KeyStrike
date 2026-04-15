@@ -33,6 +33,10 @@
 VERSION="v5.1"
 ESP_IP=""
 PORT=80
+declare -A VARS
+VARS["$VERSION"]="$VERSION"
+VARS["$IP"]="$ESP_IP"
+VARS["$PORT"]="$PORT"
 LOOP=1
 PAYLOAD_FILE=""
 PS=""
@@ -390,11 +394,71 @@ process_cmd() {
     [[ "$CMD" == "RESET" ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
     [[ "$CMD" == "RESTART" || "$CMD" == "RST" ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
 
+    # ─── VARIABLE RESOLUTION ─────────────────────
+    for var in "${!VARS[@]}"; do
+        CMD="${CMD//"$var"/"${VARS[$var]}"}"
+    done
+
+    # ─── EXEC WITH DYNAMIC CAPTURE ────────────────
+    if [[ "$CMD" =~ ^(\$[a-zA-Z0-9_]+)[[:space:]]*=[[:space:]]*EXEC[[:space:]]+(.*)$ ]]; then
+        TARGET_VAR="${BASH_REMATCH[1]}"
+        LOCAL_CMD="${BASH_REMATCH[2]}"
+        
+        LOG_VAR="${TARGET_VAR}_LOG"
+        ERR_VAR="${TARGET_VAR}_ERR"
+
+        for var in "${!VARS[@]}"; do
+            LOCAL_CMD="${LOCAL_CMD//"$var"/"${VARS[$var]}"}"
+        done
+
+        log_info "Executing CMD: $LOCAL_CMD"
+
+        OUT_TMP=$(mktemp)
+        ERR_TMP=$(mktemp)
+
+        eval "$LOCAL_CMD" >"$OUT_TMP" 2>"$ERR_TMP"
+        VARS["\$EXIT_CODE"]=$?
+        
+        if [[ -n "$TARGET_VAR" ]]; then
+            VARS["$LOG_VAR"]=$(cat "$TMP_OUT")
+            VARS["$ERR_VAR"]=$(cat "$TMP_ERR")
+            VARS["$TARGET_VAR"]="${VARS["$LOG_VAR"]}"
+        fi
+
+        rm -f "$OUT_TMP" "$ERR_TMP"
+        return
+    elif [[ "$CMD" =~ ^EXEC[[:space:]]+(.*)$ ]]; then
+        LOCAL_CMD="${BASH_REMATCH[1]}"
+        
+        for var in "${!VARS[@]}"; do
+            LOCAL_CMD="${LOCAL_CMD//"$var"/"${VARS[$var]}"}"
+        done
+
+        log_info "Executing local: $LOCAL_CMD"
+        eval "$LOCAL_CMD"
+        VARS["\$EXIT_CODE"]=$?
+        return
+    fi
+
+    # ─── SET VARIABLE ────────────────────────────
+    if [[ "$CMD" == SET* ]]; then
+        case "$VAR_NAME" in
+            "\$VERSION"|"\$IP"|"\$PORT")
+                log_warn "Access Denied: $VAR_NAME is a read-only system constant."
+                return
+                ;;
+        esac
+        VAR_NAME=$(echo "$CMD" | awk '{print $2}')
+        VAR_VAL=$(echo "$CMD" | cut -d'=' -f2- | sed 's/^ //')
+        VARS["$VAR_NAME"]="$VAR_VAL"
+        return
+    fi
+
     # ─── DELAY ─────────────────────────────────
     if [[ "$CMD" == DELAY* ]]; then
         SEC=$(echo "$CMD" | awk '{print $2}')
         echo ""
-        log_info "Waiting $SEC sec"
+        log_info "Waiting for $SEC sec"
         sleep "$SEC"
         return
     fi
@@ -718,22 +782,105 @@ process_cmd() {
     echo -e "\e[1;36m[?]\e[0m Type \e[1;32mHELP / ?\e[0m to see available commands" | lolcat
 }
 
+# ─── Block Parser ───────────────────────────────────────────
+run_logic_block() {
+    local lines=("$@")
+    local i=0
+
+    while [ $i -lt ${#lines[@]} ]; do
+        line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
+        [[ -z "$line" || "$line" == 'REM '* ]] && ((i++)) && continue
+
+        # --- IF / ELSIF / ELSE Logic ---
+        if [[ "$line" == IF* ]]; then
+            local condition="${line#IF }"
+            local found_end=false
+            local block_lines=()
+            local current_depth=1
+            
+            # Capture the full IF/END block
+            start_idx=$i
+            ((i++))
+            while [ $i -lt ${#lines[@]} ]; do
+                inner_line="${lines[$i]}"
+                [[ "$inner_line" == IF* || "$inner_line" == WHILE* || "$inner_line" == FOR* ]] && ((current_depth++))
+                [[ "$inner_line" == "END" ]] && ((current_depth--))
+                
+                if [[ $current_depth -eq 0 ]]; then
+                    found_end=true
+                    break
+                fi
+                block_lines+=("$inner_line")
+                ((i++))
+            done
+
+            # Evaluate condition using Bash logic
+            # Use (( )) for math or [[ ]] for strings
+            if eval "[[ $condition ]]"; then
+                run_logic_block "${block_lines[@]}"
+            fi
+            ((i++))
+            continue
+
+        # --- WHILE Loop ---
+        elif [[ "$line" == WHILE* ]]; then
+            local condition="${line#WHILE }"
+            local block_lines=()
+            ((i++))
+            while [ $i -lt ${#lines[@]} ] && [[ "${lines[$i]}" != "END" ]]; do
+                block_lines+=("${lines[$i]}")
+                ((i++))
+            done
+            
+            while eval "[[ $condition ]]"; do
+                run_logic_block "${block_lines[@]}"
+                # Update variables inside the loop condition
+                for var in "${!VARS[@]}"; do
+                    condition="${condition//"$var"/"${VARS[$var]}"}"
+                done
+            done
+            ((i++))
+            continue
+
+        # --- FOR Loop ---
+        elif [[ "$line" == FOR* ]]; then
+            # Syntax: FOR $I IN 1..10
+            local var_name=$(echo "$line" | awk '{print $2}')
+            local range=$(echo "$line" | awk '{print $4}' | sed 's/\.\./ /')
+            local block_lines=()
+            ((i++))
+            while [ $i -lt ${#lines[@]} ] && [[ "${lines[$i]}" != "END" ]]; do
+                block_lines+=("${lines[$i]}")
+                ((i++))
+            done
+
+            for val in $(seq $range); do
+                VARS["$var_name"]=$val
+                run_logic_block "${block_lines[@]}"
+            done
+            ((i++))
+            continue
+        fi
+
+        process_cmd "$line"
+        ((i++))
+    done
+}
+
 # ─── Payload ────────────────────────────────────────────────
 run_payload() {
     log_info "Running payload ($LOOP times)..."
+    
+    mapfile -t PAYLOAD_ARRAY < "$PAYLOAD_FILE"
 
-    for ((i=1; i<=LOOP; i++)); do
-        log_info "Loop $i/$LOOP"
-
-        while IFS= read -r line; do
-            process_cmd "$line"
-        done < "$PAYLOAD_FILE"
-
-        echo ""
+    for ((n=1; n<=LOOP; n++)); do
+        log_info "Loop $n/$LOOP"
+        run_logic_block "${PAYLOAD_ARRAY[@]}"
     done
 
     log_ok "Payload complete"
 }
+
 
 # ─── Interactive ────────────────────────────────────────────
 interactive() {
