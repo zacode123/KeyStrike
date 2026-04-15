@@ -509,7 +509,7 @@ process_cmd() {
 
         case "${SUBCMD^^}" in
             HELP|H|\?)
-                printf '\033[1;35mKeyStrike %s - BLE HID Key Library \033[0m\n\n' "$VERSION"
+                printf '\n\033[1;35mKeyStrike %s - BLE HID Key Library \033[0m\n\n' "$VERSION"
                 printf '\033[1;36mUsage:\033[0m\n'
                 printf '  \033[1;32m%-30s\033[0m \033[0;37m- Show library info (overview + notes)\033[0m\n' "INFO"
                 printf '  \033[1;32m%-30s\033[0m \033[0;37m- Show help menu (all commands + usage)\033[0m\n' "HELP / H / ?"
@@ -669,7 +669,7 @@ process_cmd() {
     fi
 
     # ─── UNKNOWN ────────────────────────────────
-    echo ""
+    echo "\n"
     log_warn "Unknown command: $CMD"
     echo -e "\e[1;36m[?]\e[0m Type \e[1;32mHELP / ?\e[0m to see available commands" | lolcat
 }
