@@ -353,7 +353,7 @@ get_key_info() {
 get_usage_page() {
     local key="$1"
     local type
-    type=$(jq -r --arg k "$key" '.[$k].type // empty' keys.json)
+    type=$(echo "$KEYS_JSON" | jq -r --arg k "$key" '.[$k].type // empty')
     case "$type" in
         media_key|app)
             echo "0x0C"
@@ -540,43 +540,43 @@ process_cmd() {
                 ;;
 
             DESKTOP|D)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.platform == "desktop") | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.platform == "desktop") | .key'
                 ;;
             GLOBAL|G)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.platform == "global") | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.platform == "global") | .key'
                 ;;
             LETTERS|LTR)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "letter"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "letter")'"$PLATFORM_FILTER"' | .key'
                 ;;
             NUMBERS|NUM)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "number"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "number")'"$PLATFORM_FILTER"' | .key'
                 ;;
             SYMBOLS|SYM)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "symbol"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "symbol")'"$PLATFORM_FILTER"' | .key'
                 ;;
             MODIFIERS|MOD)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "modifier"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "modifier")'"$PLATFORM_FILTER"' | .key'
                 ;;
             CONTROL|CTRL)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "control_key"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "control_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             ARROWS|ARR)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "arrow_key"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "arrow_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             NAVIGATION|NAV)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "navigation_key"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "navigation_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             FUNCTION|FN)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "function_key"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "function_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             MEDIA|MD)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "media_key"'"$PLATFORM_FILTER"') | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "media_key")'"$PLATFORM_FILTER"' | .key'
                 ;;
             APPS|APP)
-                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "app") | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object") | select(.value.type == "app") | .key'
                 ;;
             ALL)
-                JQ_QUERY='to_entries[] | select(.key != "_notes" and (.value | type == "object")) | .key'
+                JQ_QUERY='to_entries[] | select(.key != "_notes") | select(.value | type == "object") | .key'
                 ;;
             INFO)
                 printf "\033[1;36m====================================\033[0m\n"
