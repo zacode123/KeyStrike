@@ -1013,7 +1013,6 @@
         "android_apps": "While only system apps are directly supported, on Android you can use URLs/links to open various social media apps like YouTube, Facebook, Instagram, and X if those apps are installed.",
         "desktop_apps": "While only system apps are directly supported, on desktop you can use Win + R (or LWIN + R) to open the Run dialog and launch various apps like CMD, PowerShell, Notepad, Calculator, File Explorer, Task Manager, VS Code, Chrome, Firefox, Excel, Outlook, VLC, Spotify, Discord, Steam, OBS Studio, and more.",
         "search_in_app": "SEARCH key works with YouTube, Google Search, Play Store search bars and any app with a search field. Requires app focus. At Home Screen it opens google search. Only works if the Home Screen has the google search widget",
-        "warning": "Some desktop keys (REGEDIT, DISKMGMT) can break system if misused. Use with caution and proper knowledge.",
         "symbols": "Symbol keys (SYM_*) represent special characters and punctuation. Most require Shift modifier (marked with _SHIFT). Use: LSHIFT + SYM_AT to type @ symbol.",
         "platform_support": "Keys marked 'global' work on both Android and Desktop. Keys marked 'android' work only on Android. Keys marked 'desktop' are for desktop systems.",
         "production_ready": "This library version v5.1 includes 200+ HID keys tested against USB HID standard (v1.22), Android AOSP keycodes, and Windows/Linux HID specifications. Production-grade and fully documented."
