@@ -347,7 +347,7 @@ get_key_hex() {
 }
 
 get_key_info() {
-    echo "$KEYS_JSON" | jq -r --arg k "$key" '.[$k].info // empty'
+    echo "$KEYS_JSON" | jq -r --arg k "$1" '.[$k].info // empty'
 }
 
 get_usage_page() {
@@ -540,10 +540,10 @@ process_cmd() {
                 ;;
 
             DESKTOP|D)
-                jq_query='to_entries[] | select(.value | type == "object" and .value.platform == "desktop") | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.platform == "desktop") | .key'
                 ;;
             GLOBAL|G)
-                jq_query='to_entries[] | select(.value | type == "object" and .value.platform == "global") | .key'
+                JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.platform == "global") | .key'
                 ;;
             LETTERS|LTR)
                 JQ_QUERY='to_entries[] | select(.value | type == "object" and .value.type == "letter"'"$PLATFORM_FILTER"') | .key'
