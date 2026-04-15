@@ -420,8 +420,8 @@ process_cmd() {
         VARS["\$EXIT_CODE"]=$?
         
         if [[ -n "$TARGET_VAR" ]]; then
-            VARS["$LOG_VAR"]=$(cat "$TMP_OUT")
-            VARS["$ERR_VAR"]=$(cat "$TMP_ERR")
+            VARS["$LOG_VAR"]=$(cat "$OUT_TEMP")
+            VARS["$ERR_VAR"]=$(cat "$ERR_TEMP")
             VARS["$TARGET_VAR"]="${VARS["$LOG_VAR"]}"
         fi
 
