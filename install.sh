@@ -29,7 +29,7 @@
 # OR OTHER DEALINGS IN THE SOFTWARE.
 # ==========================================================
 set -e
-VERSION="v4.6"
+VERSION="v5.1"
 ORIGINAL_VERSION=$(keystrike -v 2>/dev/null | tr -d '\033' | sed 's/\[[0-9;]*m//g' | grep -o 'v[0-9.]*' || true)
 USR="${PREFIX:-/usr}"
 INSTALL_DIR="$USR/bin"
