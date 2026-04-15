@@ -601,7 +601,7 @@ process_cmd() {
         printf "   \e[1;36mKEY        \e[1;34m<---------------------------------------------------------------->        \e[1;36mINFO\e[0m\n"
         printf "   \e[1;36m------------------------------------------------------------------------------------------\e[0m\n"
 
-        echo "$KEYS_JSON" | jq -r "$JQ_QUERY" | sort | while read -r key; do
+        echo "$KEYS_JSON" | jq -r "$JQ_QUERY" | while read -r key; do
             [[ -z "$key" ]] && continue
 
             info=$(get_key_info "$key")
