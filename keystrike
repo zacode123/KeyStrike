@@ -317,7 +317,7 @@ reconnect() {
 # ─── ESP Reader ─────────────────────────────────────────────
 read_esp() {
     trap 'echo; return' SIGINT
-    
+
     while true; do
         IFS= read -r -t 0.5 line <&3 || continue
         echo "$line"
@@ -669,7 +669,8 @@ process_cmd() {
     fi
 
     # ─── UNKNOWN ────────────────────────────────
-    log_warn "\nUnknown command: $CMD"
+    echo ""
+    log_warn "Unknown command: $CMD"
     echo -e "\e[1;36m[?]\e[0m Type \e[1;32mHELP / ?\e[0m to see available commands" | lolcat
 }
 
