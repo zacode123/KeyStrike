@@ -34,9 +34,11 @@ VERSION="v5.1"
 ESP_IP=""
 PORT=80
 declare -A VARS
-VARS["$VERSION"]="$VERSION"
-VARS["$IP"]="$ESP_IP"
-VARS["$PORT"]="$PORT"
+VARS["\$_VERSION"]="$VERSION"
+VARS["\$_OS"]="$(uname -s | tr '[:lower:]' '[:upper:]')"
+VARS["\$_INIT_TIME"]="$(date +%H:%M:%S)"
+VARS["\$_IP"]="$ESP_IP"
+VARS["\$_PORT"]="$PORT"
 LOOP=1
 PAYLOAD_FILE=""
 PS=""
@@ -377,7 +379,15 @@ get_usage_page() {
 process_cmd() {
     CMD="$1"
 
+    # ─── VARIABLE RESOLUTION ─────────────────────────
+    for var in "${!VARS[@]}"; do
+        if [[ "$CMD" == *"$var"* ]]; then
+            CMD="${CMD//"$var"/"${VARS[$var]}"}"
+        fi
+    done
+
     [[ -z "$CMD" || "$CMD" == 'REM '* ]] && return
+    [[ "$CMD == *"$_TIME"* ]] && CMD="${CMD//"$_TIME"/"$(date +%H:%M:%S)"}" && return
 
     # ─── CLEAR SCREEN ─────────────────────────────
     [[ "$CMD" == "CLEAR" || "$CMD" == "CLS" ]] && clear && return
@@ -386,20 +396,36 @@ process_cmd() {
     [[ "$CMD" == BLE* ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
     [[ "$CMD" == WIFI* ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
 
-    # ─── TYPE ──────────────────────────────────
-    [[ "$CMD" == TYPE* ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
+    # ─── STRING / STRINGLN ──────────────────────────
+    if [[ "$CMD" == STRING* ]]; then
+        local IS_LN=false
+        [[ "$CMD" == STRINGLN* ]] && IS_LN=true
+
+        if $IS_LN; then
+            TEXT="${CMD#STRINGLN}" 
+        else
+            TEXT="${CMD#STRING}"
+        fi
+
+        TEXT="${TEXT# }"
+
+        for q in \" \'; do
+            [[ "$TEXT" == "$q"* ]] && TEXT="${TEXT#$q}"
+            [[ "$TEXT" == *"$q" ]] && TEXT="${TEXT%$q}"
+        done
+
+        send "TYPE $TEXT"
+
+        if $IS_LN; then
+            send "PRESS 0x07 0x28" 
+        fi
+        return
+    fi
 
     # ─── SYSTEM ─────────────────────────────────
     [[ "$CMD" == "SYSINFO" ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
     [[ "$CMD" == "RESET" ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
     [[ "$CMD" == "RESTART" || "$CMD" == "RST" ]] && printf "\n[>] %s\n" "$CMD" | lolcat && send "$CMD" && return
-
-    # ─── VARIABLE RESOLUTION ─────────────────────
-    for var in "${!VARS[@]}"; do
-        if [[ "$CMD" == *"$var"* ]]; then
-            CMD="${CMD//"$var"/"${VARS[$var]}"}"
-        fi
-    done
 
     # ─── EXEC WITH DYNAMIC CAPTURE ────────────────
     if [[ "$CMD" =~ ^(\$[a-zA-Z0-9_]+)[[:space:]]*=[[:space:]]*EXEC[[:space:]]+(.*)$ ]]; then
@@ -447,14 +473,18 @@ process_cmd() {
         VAR_NAME=$(echo "$CMD" | awk '{print $2}')
 
         case "$VAR_NAME" in
-            "\$VERSION"|"\$IP"|"\$PORT")
+            "\$_VERSION"|"\$_OS"|"\$_TIME"|"\$_IP"|"\$_PORT")
                 log_warn "Access Denied: $VAR_NAME is a read-only system constant."
                 return
                 ;;
         esac
 
-        VAR_VAL="${CMD#*=}"
-        VAR_VAL="${VAR_VAL# }"
+        VAR_VAL="${CMD#*= }"
+        for q in \" \'; do 
+            VAR_VAL="${VAR_VAL#$q}"
+            VAR_VAL="${VAR_VAL%$q}"
+        done
+
         VARS["$VAR_NAME"]="$VAR_VAL"
         return
     fi
