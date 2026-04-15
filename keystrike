@@ -30,7 +30,7 @@
 # OR OTHER DEALINGS IN THE SOFTWARE.
 # ==========================================================
 
-VERSION="v4.3"
+VERSION="v4.6"
 ESP_IP=""
 PORT=80
 LOOP=1
@@ -382,18 +382,21 @@ process_cmd() {
 
     [[ -z "$CMD" || "$CMD" == REM* ]] && print_prompt && return
 
-    # ─── BLE / WIFI ─────────────────────────────
+    # ─── CLEAR SCREEN ─────────────────────────────
+    [[ "$CMD" == "CLEAR" || "$CMD" == "CLS" ]] && clear && print_prompt && return
+
+    # ─── BLE / WIFI ──────────────────────────────
     [[ "$CMD" == BLE* ]]   && echo "[>] $CMD" | lolcat && send "$CMD" && return
     [[ "$CMD" == WIFI* ]]  && echo "[>] $CMD" | lolcat && send "$CMD" && return
 
-    # ─── TYPE ───────────────────────────────────
+    # ─── TYPE ──────────────────────────────────
     [[ "$CMD" == TYPE* ]]  && echo "[>] $CMD" | lolcat && send "$CMD" && return
 
     # ─── SYSTEM ─────────────────────────────────
     [[ "$CMD" == "SYSINFO" ]] && echo "[>] $CMD" | lolcat && send "$CMD" && return
     [[ "$CMD" == "RESTART" || "$CMD" == "RST" ]] && echo "[>] $CMD" | lolcat && send "$CMD" && return
 
-    # ─── DELAY ──────────────────────────────────
+    # ─── DELAY ─────────────────────────────────
     if [[ "$CMD" == DELAY* ]]; then
         SEC=$(echo "$CMD" | awk '{print $2}')
         echo ""
@@ -711,7 +714,7 @@ run_payload() {
 # ─── Interactive ────────────────────────────────────────────
 interactive() {
     log_info "Interactive mode started."
-    interactive_mode=true
+    INTERACTIVE_MODE=true
     touch "$HISTFILE"
     history -c
     history -r
@@ -721,7 +724,6 @@ interactive() {
 
         [[ -n "$CMD" ]] && history -s "$CMD"
         [[ "$CMD" == "EXIT" || "$CMD" == "E" ]] && break
-        [[ "$CMD" == "CLEAR" || "$CMD" == "CLS" ]] && clear && print_prompt && continue
 
         process_cmd "$CMD"
     done
