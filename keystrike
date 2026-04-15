@@ -374,16 +374,16 @@ process_cmd() {
     [[ "$CMD" == "CLEAR" || "$CMD" == "CLS" ]] && clear && return
 
     # ─── BLE / WIFI ──────────────────────────────
-    [[ "$CMD" == BLE* ]]   && echo "[>] $CMD" | lolcat && echo "" && send "$CMD" && return
-    [[ "$CMD" == WIFI* ]]  && echo "[>] $CMD" | lolcat && echo "" && send "$CMD" && return
+    [[ "$CMD" == BLE* ]] && echo "\n[>] $CMD\n" | lolcat && send "$CMD" && return
+    [[ "$CMD" == WIFI* ]] && echo "\n[>] $CMD\n" | lolcat && send "$CMD" && return
 
     # ─── TYPE ──────────────────────────────────
-    [[ "$CMD" == TYPE* ]]  && echo "[>] $CMD" | lolcat && echo "" && send "$CMD" && return
+    [[ "$CMD" == TYPE* ]] && echo "\n[>] $CMD\n" | lolcat && send "$CMD" && return
 
     # ─── SYSTEM ─────────────────────────────────
-    [[ "$CMD" == "SYSINFO" ]] && echo "[>] $CMD" | lolcat && echo "" && send "$CMD" && return
-    [[ "$CMD" == "RESET" ]] && echo "[>] $CMD" | lolcat && echo "" && send "$CMD" && return
-    [[ "$CMD" == "RESTART" || "$CMD" == "RST" ]] && echo "[>] $CMD" | lolcat && echo "" && send "$CMD" && return
+    [[ "$CMD" == "SYSINFO" ]] && echo "\n[>] $CMD\n" | lolcat && send "$CMD" && return
+    [[ "$CMD" == "RESET" ]] && echo "\n[>] $CMD\n" | lolcat && send "$CMD" && return
+    [[ "$CMD" == "RESTART" || "$CMD" == "RST" ]] && echo "\n[>] $CMD\n" | lolcat && send "$CMD" && return
 
     # ─── DELAY ─────────────────────────────────
     if [[ "$CMD" == DELAY* ]]; then
@@ -430,8 +430,7 @@ process_cmd() {
             return
         fi
 
-        echo "[>] RELEASE $ARG ($USAGE_PAGE $HEX)" | lolcat
-        echo ""
+        echo "[>] RELEASE $ARG ($USAGE_PAGE $HEX)\n" | lolcat
         send "RELEASE $USAGE_PAGE $HEX"
         return
     fi
@@ -484,12 +483,10 @@ process_cmd() {
         fi
 
         if [[ -n "$MOD_HEX" ]]; then
-            echo "[>] $ACTION $USAGE_PAGE $KEY_HEX MOD:$MOD_HEX" | lolcat
-            echo ""
+            echo "[>] $ACTION $USAGE_PAGE $KEY_HEX MOD:$MOD_HEX\n" | lolcat
             send "$ACTION $USAGE_PAGE $KEY_HEX $MOD_HEX"
         else
-            echo "[>] $ACTION $USAGE_PAGE $KEY_HEX" | lolcat
-            echo ""
+            echo "[>] $ACTION $USAGE_PAGE $KEY_HEX\n" | lolcat
             send "$ACTION $USAGE_PAGE $KEY_HEX"
         fi
         return
