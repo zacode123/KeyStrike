@@ -394,6 +394,7 @@ process_cmd() {
 
     # ─── SYSTEM ─────────────────────────────────
     [[ "$CMD" == "SYSINFO" ]] && echo "[>] $CMD" | lolcat && send "$CMD" && return
+    [[ "$CMD" == "RESET" ]] && echo "[>] $CMD" | lolcat && send "$CMD" && return
     [[ "$CMD" == "RESTART" || "$CMD" == "RST" ]] && echo "[>] $CMD" | lolcat && send "$CMD" && return
 
     # ─── DELAY ─────────────────────────────────
@@ -648,40 +649,43 @@ process_cmd() {
     # ─── HELP ───────────────────────────────────
     if [[ "$CMD" == "HELP" || "$CMD" == "?" ]]; then
         echo ""
-        echo -e "\e[1;36m=========[ KEYSTRIKE HELP $VERSION ]=========\e[0m" | lolcat
+        echo -e "\e[1;36m===================[ KEYSTRIKE HELP $VERSION ]===================\e[0m" | lolcat
         echo ""
         echo -e "\e[1;33mGENERAL:\e[0m"
-        echo -e "  \e[1;32mHELP / ?\e[0m              Show this help"
-        echo -e "  \e[1;32mRESTART / RST\e[0m         Restart ESP32"
-        echo -e "  \e[1;32mSYSINFO\e[0m               Get system info"
-        echo -e "  \e[1;32mDELAY <TIME>\e[0m          Pause the script for specified seconds"
-        echo -e "  \e[1;32mCLEAR / CLS\e[0m           Clear screen"
-        echo -e "  \e[1;32mEXIT / E\e[0m              Exit KeyStrike"
+        echo -e "  \e[1;32mHELP / ?\e[0m                     Show this help"
+        echo -e "  \e[1;32mRESTART / RST\e[0m                Restart ESP32"
+        echo -e "  \e[1;32mRESET\e[0m.                       Reset all saved credentials (Factory Reset)"
+        echo -e "  \e[1;32mSYSINFO\e[0m                      Get system info"
+        echo -e "  \e[1;32mDELAY <TIME>\e[0m                 Pause the script for specified seconds"
+        echo -e "  \e[1;32mCLEAR / CLS\e[0m                  Clear screen"
+        echo -e "  \e[1;32mEXIT / E\e[0m                     Exit KeyStrike"
         echo ""
         echo -e "\e[1;33mBLE:\e[0m"
-        echo -e "  \e[1;32mBLE INFO\e[0m              Show BLE info"
-        echo -e "  \e[1;32mBLE INFO <N> <M>\e[0m      Set name & manufacturer"
-        echo -e "  \e[1;32mBLE INIT\e[0m              Start BLE"
-        echo -e "  \e[1;32mBLE END / STOP\e[0m        Stop BLE"
-        echo -e "  \e[1;32mBLE POWER <1-8> \e[0m      Set BLE TX Power (1=-12dBm … 8=+9dBm)"
-        echo -e "  \e[1;32mBLE CLEARBONDS\e[0m        Clear saved BLE bonds"
-        echo -e "  \e[1;32mBLE RESET\e[0m             Reset BLE settings"
+        echo -e "  \e[1;32mBLE INFO\e[0m                     Show BLE info"
+        echo -e "  \e[1;32mBLE INFO <N> <M>\e[0m             Set name & manufacturer"
+        echo -e "  \e[1;32mBLE INIT\e[0m                     Start BLE Advertising"
+        echo -e "  \e[1;32mBLE END / STOP\e[0m               Stop BLE Advertising"
+        echo -e "  \e[1;32mBLE POWER <1-8> \e[0m             Set BLE TX Power (1=-12dBm … 8=+9dBm)"
+        echo -e "  \e[1;32mBLE SECURITY <MODE>\e[0m          Change BLE Security mode (PASSKEY / NONE)"
+        echo -e "  \e[1;32mBLE PASSKEY APPROVE / DENY\e[0m   Approve or deny BLE passkey pairing (requires passkey security mode)"
+        echo -e "  \e[1;32mBLE CLEARBONDS\e[0m               Clear saved BLE bonds"
+        echo -e "  \e[1;32mBLE RESET\e[0m                    Reset BLE settings"
         echo ""
         echo -e "\e[1;33mWIFI:\e[0m"
-        echo -e "  \e[1;32mWIFI INFO\e[0m             Show WiFi config"
-        echo -e "  \e[1;32mWIFI INFO <S> <P>\e[0m     Set SSID & Password"
-        echo -e "  \e[1;32mWIFI RESET\e[0m            Reset WiFi settings"
+        echo -e "  \e[1;32mWIFI INFO\e[0m                    Show WiFi config"
+        echo -e "  \e[1;32mWIFI INFO <S> <P>\e[0m            Set SSID & Password"
+        echo -e "  \e[1;32mWIFI RESET\e[0m                   Reset WiFi settings"
         echo ""
         echo -e "\e[1;33mKEYBOARD:\e[0m"
-        echo -e "  \e[1;32mPRESS   [MOD] <KEY>\e[0m       Press key (optional modifier, e.g. CTRL R)"
-        echo -e "  \e[1;32mTAP     [MOD] <KEY>\e[0m       Tap key (optional modifier, e.g. CTRL R)"
-        echo -e "  \e[1;32mRELEASE         ALL\e[0m       Release all keys"
-        echo -e "  \e[1;32mRELEASE       <KEY>\e[0m       Release specific key"
-        echo -e "  \e[1;32mTYPE         <TEXT>\e[0m       Type text or any charecter"
+        echo -e "  \e[1;32mPRESS   [MOD] <KEY>\e[0m          Press key (optional modifier, e.g. CTRL R)"
+        echo -e "  \e[1;32mTAP     [MOD] <KEY>\e[0m          Tap key (optional modifier, e.g. CTRL R)"
+        echo -e "  \e[1;32mRELEASE         ALL\e[0m          Release all keys"
+        echo -e "  \e[1;32mRELEASE       <KEY>\e[0m          Release specific key"
+        echo -e "  \e[1;32mTYPE         <TEXT>\e[0m          Type text or any charecter"
         echo ""
         echo -e "\e[1;33mKEY LIBRARY:\e[0m"
         echo -e "  \e[0;36mUse 'KEYS / K HELP' to view the key library\e[0m"
-        echo -e "\e[1;36m========================================\e[0m" | lolcat
+        echo -e "\e[1;36m============================================================\e[0m" | lolcat
         echo ""
         print_prompt
         return
