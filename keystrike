@@ -270,14 +270,15 @@ scan_network() {
 
 # ─── Connection ─────────────────────────────────────────────
 connect() {
+    if ! nc -z -w 3 "$ESP_IP" "$PORT"; then
+        return 1
+    fi
+
     coproc ESP_CONN { nc "$ESP_IP" "$PORT" 2>/dev/null; }
 
     exec 3<&"${ESP_CONN[0]}"
     exec 4>&"${ESP_CONN[1]}"
-}
-
-check_nc() {
-    kill -0 "$ESP_CONN_PID" 2>/dev/null
+    return 0
 }
 
 reconnect() {
@@ -285,32 +286,28 @@ reconnect() {
     kill "$READER_PID" 2>/dev/null
 
     sleep 1
-    connect
 
-    if ! check_nc; then
+    if ! connect; then
         log_warn "Reconnect failed. Retrying..."
 
         kill "$ESP_CONN_PID" 2>/dev/null
         kill "$READER_PID" 2>/dev/null
 
-        sleep 1
-        connect
+        sleep 2
 
-        if ! check_nc; then
+        if ! connect; then
             log_warn "Reconnect failed again. Rescanning..."
-
             clear_ip
             scan_network
-            connect
+            if connect; then
+                log_ok "Successfully connected to ESP32"
+                read_esp &
+                READER_PID=$!
+            else 
+                log_err "Failed to connect to ESP32"
+                exit 1
+            fi
         fi
-    fi
-    if check_nc; then
-        log_ok "Successfully connected to ESP32"
-        read_esp &
-        READER_PID=$!
-    else 
-        log_err "Failed to connect to ESP32"
-        exit 1
     fi
 
     history -a
@@ -329,6 +326,10 @@ read_esp() {
 }
 
 # ─── Send ───────────────────────────────────────────────────
+check_nc() {
+    kill -0 "$ESP_CONN_PID" 2>/dev/null
+}
+
 send() {
     local msg="$1"
     printf "%s\n" "$msg" >&4 2>/dev/null;
@@ -876,20 +877,18 @@ load_ip
 if [[ -n "$ESP_IP" ]]; then
     log_info "Using saved IP: $ESP_IP"
     log_info "Connecting to $ESP_IP..."
-    connect
-    if ! check_nc; then
+    if ! connect; then
         log_warn "Saved IP failed"
         clear_ip
-        scan_network
-        connect 
+        scan_network 
     fi
 else
     scan_network
-    log_info "Connecting to $ESP_IP..."
-    connect
 fi
 
-if check_nc; then
+log_info "Connecting to $ESP_IP..."
+
+if connect; then
     log_ok "Successfully connected to ESP32"
     read_esp &
     READER_PID=$!
