@@ -1,6 +1,6 @@
 #ifndef WIFI_SSID
-  #define WIFI_SSID                   "POCO X4 Pro 5G"
-  #define WIFI_PASS                        "wasim@123"
+  #define WIFI_SSID                   "YOUR_WIFI_SSID"
+  #define WIFI_PASS                   "YOUR_WIFI_PASS"
 #endif
 
 #define WAKEUP_BUTTON                       GPIO_NUM_0
