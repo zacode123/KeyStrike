@@ -1,6 +1,6 @@
 #ifndef WIFI_SSID
-  #define WIFI_SSID                   "YOUR_WIFI_SSID"
-  #define WIFI_PASS                   "YOUR_WIFI_PASS"
+  #define WIFI_SSID                        "WIFI_SSID"
+  #define WIFI_PASS                        "WIFI_PASS"
 #endif
 
 #define WAKEUP_BUTTON                       GPIO_NUM_0
@@ -8,7 +8,7 @@
 #define LIGHT_SLEEP_TIMEOUT               (30*60*1000)  // 30 min
 #define DEEP_SLEEP_TIMEOUT              (1*60*60*1000)  // 1 hour
 
-#define VERSION                                 "v5.1"
+#define VERSION                                 "v6.0"
 
 #define C_RESET                              "\033[0m"
 #define C_BOLD                               "\033[1m"
