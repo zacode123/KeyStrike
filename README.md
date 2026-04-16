@@ -76,6 +76,43 @@ The **KeyStrike** firmware is designed for **stability** and **"stealth"** in pr
 
 ---
 
+## 🛢️ Variables
+
+***Variables are used to store values and are created automatically on assignment.***
+
+---
+
+**✔ Assignment**
+```ks
+$VAR = true
+$NUM = 10
+$STR = "Hello"
+```
+
+**✔ Usage**
+```ks
+LOG_INFO $VAR
+LOG_INFO "$VAR"
+LOG_INFO '$VAR'
+LOG_INFO Hello this is $VAR
+```
+
+**✔ Behavior**
+
+* Variables are created on first assignment
+* No declaration required
+* Values can be reassigned anytime
+* Variables are always global and is accessible across the entire script
+
+**✔ Notes**
+
+* Must start with $
+* Case-sensitive
+* Quoting is optional in general, not just for variables
+* Variables can be used directly inside text
+
+---
+
 ## 🔁 Loops
 
 ***KeyStrike supports iterative execution using FOR and WHILE loops.***
@@ -186,79 +223,70 @@ END
 
 ---
 
-⚙️ Command Execution
+## ⚙️ Command Execution
 
-KeyStrike supports two execution methods: EXEC and [ ... ].
-
+***KeyStrike supports two execution methods: EXEC and [ ... ].***
 
 ---
 
-📌 EXEC
+### 💻 EXEC
 
-Runs a command on the host system where KeyStrike is currently running.
+*Runs a command on the host system where KeyStrike is currently running.*
 
-✔ Syntax
-
+**✔ Syntax**
+```ks
 $VAR = EXEC <command>
+```
 
-✔ Example
-
+**✔ Example**
+```ks
 $USER = EXEC whoami
+```
 
+### 💻 [ ... ]
 
----
+*Executes KeyStrike commands internally through the logic engine.*
 
-📌 [ ... ]
-
-Executes KeyStrike / Ducky commands internally through the logic engine.
-
-✔ Syntax
-
+**✔ Syntax**
+```ks
 $VAR = [<command>]
+```
 
-✔ Example
-
+**✔ Example**
+```ks
 $OUT = [STRINGLN Hello]
+```
 
+**✔ Direct KeyStrike command Execution**
 
----
+*If you are not assigning output to a variable, there is no need to use [ ... ].*
 
-📌 Direct Ducky Execution
-
-If you are not assigning output to a variable, there is no need to use [ ... ].
-
-✔ Example
-
+**✔ Example**
+```ks
 STRINGLN Hello
 TAP ENTER
+```
 
+**✔ Output Variables**
 
----
+***When assigned to a variable:***
 
-📌 Output Variables
+* Output → $VAR
+* Errors → $VAR_ERR
 
-When assigned to a variable:
-
-Output → $VAR
-
-Errors → $VAR_ERR
-
-
-✔ Example
-
+**✔ Example**
+```ks
 $DATA = EXEC ls
 LOG_INFO "$DATA"
 LOG_ERR "$DATA_ERR"
+```
 
-
----
-
-✔ Summary
+**✔ Notes**
 
 * EXEC → host system commands
-[ ... ] → used only when capturing output from Ducky commands
-Direct commands → no [ ... ] needed
-_ERR → stores errors automatically
+* [ ... ] → used only when capturing output from KeyStrike commands
+* Direct commands → no [ ... ] needed
+* _ERR → stores errors automatically
 
 ---
 
@@ -299,7 +327,7 @@ TEST()
 * Function names are case-sensitive
 * Must be defined before use
 * No parameters (v6.0)
-* No return values (use global variables if needed)
+* No return values (use variables if needed)
 * Supports multiple calls
 
 ---
