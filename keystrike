@@ -34,6 +34,7 @@ VERSION="v5.1"
 ESP_IP=""
 PORT=80
 declare -A VARS
+declare -A FUNCTIONS
 VARS["\$_VERSION"]="$VERSION"
 VARS["\$_OS"]="$(uname -s | tr '[:lower:]' '[:upper:]')"
 VARS["\$_INIT_TIME"]="$(date +%H:%M:%S)"
@@ -900,8 +901,35 @@ run_logic_block() {
         line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
         [[ -z "$line" || "$line" == 'REM '* ]] && ((i++)) && continue
 
+        # --- FUNCTION DEFINITION ---
+        if [[ "$line" =~ ^FUNCTION[[:space:]]+([a-zA-Z0-9_]+)\(\)$ ]]; then
+            local func_name="${BASH_REMATCH[1]}"
+            local block_lines=""
+            ((i++))
+            
+            while [ $i -lt ${#lines[@]} ] && [[ "${lines[$i]}" != "END" ]]; do
+                block_lines+="${lines[$i]}"$'\n'
+                ((i++))
+            done
+            
+            FUNCTIONS["$func_name"]="$block_lines"
+            ((i++))
+            continue
+
+        # --- FUNCTION CALL ---
+        elif [[ "$line" =~ ^([a-zA-Z0-9_]+)\(\)$ ]]; then
+            local func_name="${BASH_REMATCH[1]}"
+            if [[ -n "${FUNCTIONS[$func_name]}" ]]; then
+                IFS=$'\n' read -rd '' -a FUNC_BODY <<< "${FUNCTIONS[$func_name]}"
+                run_logic_block "${FUNC_BODY[@]}"
+            else
+                log_err "Undefined function: $func_name"
+            fi
+            ((i++))
+            continue
+            
         # --- IF / ELSIF / ELSE Logic ---
-        if [[ "$line" == IF* ]]; then
+        elif [[ "$line" == IF* ]]; then
             local condition="${line#IF }"
             local found_end=false
             local block_lines=()
