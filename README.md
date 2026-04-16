@@ -134,6 +134,134 @@ END
 
 ---
 
+Good catch — here’s the correct documentation:
+
+
+---
+
+## 🔀 Conditional Statements
+
+***KeyStrike supports conditional execution using IF, ELSEIF, and ELSE.***
+
+---
+
+**✔ Syntax**
+```ks
+IF <condition>
+    <commands>
+ELSEIF <condition>
+    <commands>
+ELSE
+    <commands>
+END
+```
+
+**✔ Example**
+```ks
+$X = 10
+
+IF $X == 5
+    LOG_INFO "Value is 5"
+ELSEIF $X == 10
+    LOG_OK "Value is 10"
+ELSE
+    LOG_ERR "Unknown value"
+END
+```
+
+**✔ Behavior**
+
+* Conditions are evaluated top to bottom
+* First matching block executes
+* Remaining blocks are skipped
+* ELSE runs if no condition matches
+
+**✔ Notes**
+
+* Works with numbers and strings
+* Quotes are optional, only needed for strings with spaces
+* ELSEIF and ELSE are optional
+* Must end with END
+* Supports nesting
+
+---
+
+⚙️ Command Execution
+
+KeyStrike supports two execution methods: EXEC and [ ... ].
+
+
+---
+
+📌 EXEC
+
+Runs a command on the host system where KeyStrike is currently running.
+
+✔ Syntax
+
+$VAR = EXEC <command>
+
+✔ Example
+
+$USER = EXEC whoami
+
+
+---
+
+📌 [ ... ]
+
+Executes KeyStrike / Ducky commands internally through the logic engine.
+
+✔ Syntax
+
+$VAR = [<command>]
+
+✔ Example
+
+$OUT = [STRINGLN Hello]
+
+
+---
+
+📌 Direct Ducky Execution
+
+If you are not assigning output to a variable, there is no need to use [ ... ].
+
+✔ Example
+
+STRINGLN Hello
+TAP ENTER
+
+
+---
+
+📌 Output Variables
+
+When assigned to a variable:
+
+Output → $VAR
+
+Errors → $VAR_ERR
+
+
+✔ Example
+
+$DATA = EXEC ls
+LOG_INFO "$DATA"
+LOG_ERR "$DATA_ERR"
+
+
+---
+
+✔ Summary
+
+* EXEC → host system commands
+[ ... ] → used only when capturing output from Ducky commands
+Direct commands → no [ ... ] needed
+_ERR → stores errors automatically
+
+---
+
 ## 🔧 Functions
 
 ***Functions allow grouping reusable blocks of KeyStrike commands.***
