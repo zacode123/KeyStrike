@@ -30,7 +30,7 @@
 # OR OTHER DEALINGS IN THE SOFTWARE.
 # ==========================================================
 
-VERSION="v5.1"
+VERSION="v6.0"
 ESP_IP=""
 PORT=80
 declare -A VARS
