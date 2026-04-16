@@ -1,7 +1,7 @@
 <div align="center">
     <img width="512" height="279" alt="KeyStrike Banner" src="https://github.com/user-attachments/assets/799ecca7-1b43-477b-8815-0d8cc31c902e"/>
     <h1>⚡ KeyStrike v6.0</h1>
-    <p><b>The Ultimate ESP32-S3/C3 BLE HID Scripting Engine</b></p>
+    <p><b>The Ultimate ESP32 BLE HID Scripting Engine</b></p>
 </div>
 
 ---
@@ -20,7 +20,7 @@ Version 6.0 transforms KeyStrike from a simple injector into a full-blown automa
 
 ### ⚙️ Core Features
  * **Wireless HID Emulation:** Full Bluetooth Low Energy (BLE) keyboard support.
- * **Ducky-Plus Syntax:** Familiar Ducky Script base extended with logic and variables.
+ * **KeyStrike Syntax:** Familiar Ducky Script base extended with logic and variables.
  * **Cross-Platform CLI:** Native support for **Linux** and **Termux** (Android).
  * **Zero-Footprint Cleanup:** Automated memory management that clears variables and functions on exit.
  * **Persistent Config:** Remembers your ESP32 IP and settings across sessions.
@@ -66,20 +66,19 @@ LOG_OK "Payload Finished at $_TIME"
 ---
 
 ### 🧠 Advanced Firmware Features
-The KeyStrike firmware is designed for stability and "stealth" in professional environments.
- * **Smart Power Management:** Integrated **Light & Deep Sleep** logic. The device stays active for 30 minutes, enters light sleep to save power, and transitions to deep sleep after 1 hour (Wake up via GPIO 0).
+The **KeyStrike** firmware is designed for **stability** and **"stealth"** in professional environments.
+ * **Smart Power Management:** Integrated **Light & Deep Sleep** logic. The device stays active for **30 minutes**, enters light sleep to **save power**, and transitions to deep sleep after **1 hour (Wake up via GPIO 0)**.
  * **Interactive ANSI Console:** Real-time feedback with high-visibility color-coded tables for system health, BLE state, and WiFi signal quality.
  * **Factory Reset System:** Robust data management using nvs_flash. Wipe all stored SSIDs and custom BLE configurations with a secure confirmation prompt.
- * **Dynamic Security Mode:** Change security mode any time. Supports 'PASSKEY' and 'None (Just Works)'.
- * **Auto-Passkey Approval:** Secure pairing with support for **Passkey Verification**. Includes a 30-second auto-approval window.
+ * **Dynamic Security Mode:** Change security mode any time. Supports **'PASSKEY'** and **'None (Just Works)'**.
+ * **Auto-Passkey Approval:** Secure pairing with support for **Passkey Verification**. Includes a **30-second auto-approval window**.
  * **Dynamic Configuration:** Change your ESP32 Configuration on the fly without re-flashing.
 
 ---
 
 ## 🔁 Loops
 
-KeyStrike supports iterative execution using FOR and WHILE loops.
-
+***KeyStrike supports iterative execution using FOR and WHILE loops.***
 
 ---
 
@@ -103,9 +102,7 @@ END
 **✔ Notes**
 
 * Range is inclusive (1..3 → runs 3 times)
-
 * Loop variable ($I) is automatically incremented
-
 * Supports use inside functions and nested blocks
 
 ---
@@ -132,16 +129,56 @@ END
 **✔ Notes**
 
 * Condition is evaluated before each iteration
-
 * Loop continues until condition becomes false
-
 * Variables must be updated manually inside the loop
 
 ---
 
-### ⚡ For more Syntax References
+## 🔧 Functions
 
-* **Ducky syntax & commands** → `HELP | H | ?`
+***Functions allow grouping reusable blocks of KeyStrike commands.***
+
+---
+
+### 📌 Definition
+
+*A function is defined using the FUNCTION keyword and terminated with END.*
+
+**✔ Syntax**
+```ks
+FUNCTION <NAME>()
+    <commands>
+END
+```
+
+**Call a function by using its name:**
+```ks
+<NAME>()
+```
+
+**✔ Example**
+```ks
+FUNCTION TEST()
+    STRINGLN "Hello from function"
+    TAP ENTER
+END
+
+TEST()
+```
+
+**✔ Notes**
+
+* Function names are case-sensitive
+* Must be defined before use
+* No parameters (v6.0)
+* No return values (use global variables if needed)
+* Supports multiple calls
+
+---
+
+### ⚡ For more help with Syntax
+
+* **KeyStrike syntax & commands** → `HELP | H | ?`
 
 * **Key library** (key codes & usage) → `KEYS | K    HELP | H | ?`
 
