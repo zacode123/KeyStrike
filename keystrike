@@ -379,6 +379,80 @@ get_usage_page() {
 process_cmd() {
     CMD="$1"
 
+        if [[ "$CMD" =~ ^(\$[a-zA-Z0-9_]+)[[:space:]]*=[[:space:]]*(.*)$ ]]; then
+        VAR_NAME="${BASH_REMATCH[1]}"
+        RIGHT_SIDE="${BASH_REMATCH[2]}"
+
+        case "$VAR_NAME" in
+            "\$_VERSION"|"\$_OS"|"\$_INIT_TIME"|"\$_IP"|"\$_PORT")
+                return ;;
+        esac
+
+        if [[ "$RIGHT_SIDE" == EXEC\ * ]]; then
+            LOCAL_CMD="${RIGHT_SIDE#EXEC }"
+            
+            for v in "${!VARS[@]}"; do
+                [[ "$LOCAL_CMD" == *"$v"* ]] && LOCAL_CMD="${LOCAL_CMD//"$v"/"${VARS[$v]}"}"
+            done
+            
+            OUT_TMP=$(mktemp)
+            ERR_TMP=$(mktemp)
+            
+            eval "$LOCAL_CMD" >"$OUT_TMP" 2>"$ERR_TMP"
+            VARS["\$EXIT_CODE"]=$?
+            
+            VARS["$VAR_NAME"]=$(<"$OUT_TMP")
+            VARS["${VAR_NAME}_ERR"]=$(<"$ERR_TMP")
+            
+            rm -f "$OUT_TMP" "$ERR_TMP"
+            return
+
+        elif [[ "$RIGHT_SIDE" =~ ^\[(.*)\]$ ]]; then
+            ESP_CMD="${BASH_REMATCH[1]}"
+            
+            for v in "${!VARS[@]}"; do
+                [[ "$ESP_CMD" == *"$v"* ]] && ESP_CMD="${ESP_CMD//"$v"/"${VARS[$v]}"}"
+            done
+            
+            OUT_TMP=$(mktemp)
+            ERR_TMP=$(mktemp)
+            
+            process_cmd "$ESP_CMD" >"$OUT_TMP" 2>"$ERR_TMP"
+            IFS= read -r -t 2 RESPONSE <&3
+            
+            [[ -n "$RESPONSE" ]] && echo "$RESPONSE" >> "$OUT_TMP"
+
+            VARS["$VAR_NAME"]=$(sed -e 's/\x1b\[[0-9;]*[a-zA-Z]//g' "$OUT_TMP")
+            VARS["${VAR_NAME}_ERR"]=$(sed -e 's/\x1b\[[0-9;]*[a-zA-Z]//g' "$ERR_TMP")
+            
+            rm -f "$OUT_TMP" "$ERR_TMP"
+            return
+
+        else
+            VAR_VAL="$RIGHT_SIDE"
+            
+            for q in \" \'; do
+                [[ "$VAR_VAL" == "$q"* ]] && VAR_VAL="${VAR_VAL#$q}"
+                [[ "$VAR_VAL" == *"$q" ]] && VAR_VAL="${VAR_VAL%$q}"
+            done
+            
+            VARS["$VAR_NAME"]="$VAR_VAL"
+            return
+        fi
+    fi
+
+    if [[ "$CMD" == EXEC\ * ]]; then
+        LOCAL_CMD="${CMD#EXEC }"
+        
+        for v in "${!VARS[@]}"; do
+            [[ "$LOCAL_CMD" == *"$v"* ]] && LOCAL_CMD="${LOCAL_CMD//"$v"/"${VARS[$v]}"}"
+        done
+
+        eval "$LOCAL_CMD"
+        VARS["\$EXIT_CODE"]=$?
+        return
+    fi
+
     # ─── VARIABLE RESOLUTION ─────────────────────────
     for var in "${!VARS[@]}"; do
         if [[ "$CMD" == *"$var"* ]]; then
