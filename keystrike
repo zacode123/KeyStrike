@@ -920,12 +920,16 @@ process_cmd() {
         echo -e "  \e[1;32mWIFI INFO <S> <P>\e[0m            Set SSID & Password"
         echo -e "  \e[1;32mWIFI RESET\e[0m                   Reset WiFi settings"
         echo ""
-        echo -e "\e[1;33mKEYBOARD:\e[0m"
+        echo -e "\e[1;33mKeyStrike Syntax:\e[0m"
         echo -e "  \e[1;32mPRESS   [MOD] <KEY>\e[0m          Press key (optional modifier, e.g. CTRL R)"
         echo -e "  \e[1;32mTAP     [MOD] <KEY>\e[0m          Tap key (optional modifier, e.g. CTRL R)"
         echo -e "  \e[1;32mRELEASE         ALL\e[0m          Release all keys"
         echo -e "  \e[1;32mRELEASE       <KEY>\e[0m          Release specific key"
-        echo -e "  \e[1;32mTYPE         <TEXT>\e[0m          Type text or any charecter"
+        echo -e "  \e[1;32mSTRING        <TEXT>\e[0m         Type any text or charecter"
+        echo -e "  \e[1;32mSTRINGLN      <TEXT>\e[0m         Type any text or charecter with a newline"
+        echo -e "  \e[1;32mREM           <COMMENT>\e[0m      Type comment. Any thing typed after this will be ignored"
+
+        
         echo ""
         echo -e "\e[1;33mKEY LIBRARY:\e[0m"
         echo -e "  \e[0;36mUse 'KEYS / K HELP' to view the key library\e[0m"
@@ -1139,10 +1143,10 @@ parse_args() {
                 echo -e "   \e[1;32mkeystrike\e[0m"
                 echo -e "     → Start interactive mode"
                 echo ""
-                echo -e "   \e[1;32mkeystrike payload.txt\e[0m"
+                echo -e "   \e[1;32mkeystrike payload.ks\e[0m"
                 echo -e "     → Execute payload file"
                 echo ""
-                echo -e "   \e[1;32mkeystrike payload.txt --loop 5\e[0m"
+                echo -e "   \e[1;32mkeystrike payload.ks --loop 5\e[0m"
                 echo -e "     → Run payload 5 times in loop"
                 echo ""
                 echo -e " \e[1;33mOPTIONS:\e[0m"
@@ -1153,7 +1157,7 @@ parse_args() {
                 echo -e "   \e[1;32muninstall\e[0m         Uninstall KeyStrike from system"
                 echo ""
                 echo -e " \e[1;33mPAYLOAD:\e[0m"
-                echo -e "   Provide a \e[1;36m.txt\e[0m file with commands to auto-run"
+                echo -e "   Provide a \e[1;36m.ks\e[0m(KeyStrike Script File) payload file to run"
                 echo ""
                 echo -e "\e[1;36m==========================================================\e[0m" | lolcat
                 echo ""
@@ -1161,7 +1165,7 @@ parse_args() {
                 exit 0
                 ;;
 
-            *.txt)
+            *.ks)
                 if [[ -d "$1" ]]; then
                     log_err "Cannot use payload: $1 is a directory"
                     trap - EXIT
@@ -1181,7 +1185,7 @@ parse_args() {
                 if [[ -d "$1" ]]; then
                     log_err "Cannot use payload: $1 is a directory"
                 elif [[ -f "$1" ]]; then
-                    log_err "Invalid payload file (must be .txt): $1"
+                    log_err "Invalid payload file (must be a KeyStrike Script .ks): $1"
                 else
                     log_err "Unknown argument: $1"
                     echo -e "\e[1;36m[?]\e[0m Use: \e[1;32mkeystrike -h / --help\e[0m for usage"
