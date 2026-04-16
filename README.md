@@ -8,7 +8,7 @@
 
 ### 🚀 What's New in v6.0 (The Logic Engine)
 Version 6.0 transforms KeyStrike from a simple injector into a full-blown automation platform.
- * **Dual mode:** KeyStrike now supports two modes interactive mode (Ducky shell) and payload mode. Use `keystrike --help` for more info.
+ * **Dual mode:** KeyStrike now supports two modes interactive mode (KeyStrike Script Shell) and payload mode. Use `keystrike --help` for more info.
  * **Payload:** KeyStrike supports .ks(KeyStrike Script file) payloads. Also supports a `--loop <n>` option for running the payload in loop n times.
  * **🧠 Logic Engine:** Support for `IF/ELSEIF/ELSE` conditionals, `FOR` loops, and `WHILE` loops directly in your payloads.
  * **📦 Modular Functions:** Define `FUNC name()...END` blocks to reuse code and keep payloads clean.
