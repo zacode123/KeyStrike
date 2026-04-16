@@ -963,7 +963,7 @@ run_logic_block() {
         [[ -z "$line" || "$line" == 'REM '* ]] && ((i++)) && continue
 
         # --- FUNCTION DEFINITION ---
-        if [[ "$line" =~ ^FUNCTION[[:space:]]+([a-zA-Z0-9_]+)\(\)$ ]]; then
+        if [[ "$line" =~ ^FUNC[[:space:]]+([a-zA-Z0-9_]+)\(\)$ ]]; then
             local func_name="${BASH_REMATCH[1]}"
             local block_lines=""
             ((i++))
