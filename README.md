@@ -67,6 +67,7 @@ LOG_OK "Payload Finished at $_TIME"
 
 ### 🧠 Advanced Firmware Features
 The **KeyStrike** firmware is designed for **stability** and **"stealth"** in professional environments.
+ * **Super Fast KeyStroke Executor:** Added custom memory efficient HID library with super fast keystroke execution.
  * **Smart Power Management:** Integrated **Light & Deep Sleep** logic. The device stays active for **30 minutes**, enters light sleep to **save power**, and transitions to deep sleep after **1 hour (Wake up via GPIO 0)**.
  * **Interactive ANSI Console:** Real-time feedback with high-visibility color-coded tables for system health, BLE state, and WiFi signal quality.
  * **Factory Reset System:** Robust data management using nvs_flash. Wipe all stored SSIDs and custom BLE configurations with a secure confirmation prompt.
