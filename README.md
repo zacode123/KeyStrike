@@ -1,83 +1,87 @@
 <div align="center">
-  <img width="512" height="279" alt="image_4750e815-88d2-4990-93fa-3b9eb9e1002d" src="https://github.com/user-attachments/assets/799ecca7-1b43-477b-8815-0d8cc31c902e"/>
-  <h1>⚡ KeyStrike v6.0</h1>
+    <img width="512" height="279" alt="KeyStrike Banner" src="https://github.com/user-attachments/assets/799ecca7-1b43-477b-8815-0d8cc31c902e"/>
+    <h1>⚡ KeyStrike v6.0</h1>
+    <p><b>The Ultimate ESP32-S3/C3 BLE HID Scripting Engine</b></p>
 </div>
 
-> **ESP32 BLE HID keyboard emulation tool.**
+---
+
+### 🚀 What's New in v6.0 (The Logic Engine)
+Version 6.0 transforms KeyStrike from a simple injector into a full-blown automation platform.
+ * **🧠 Logic Engine:** Support for IF/ELSE conditionals, FOR loops, and WHILE loops directly in your payloads.
+ * **📦 Modular Functions:** Define FUNCTION name()...END blocks to reuse code and keep payloads clean.
+ * **🎨 Pro Logging:** New LOG_INFO, LOG_OK, and LOG_ERR commands with ANSI escape support (\n, \t, \e) and beautiful color gradients.
+ * **📑 Dynamic Variables:** Capture system info into variables (e.g., $MY_IP = [SYSINFO]) or use native $VAR = ... syntax.
+ * **📚 Expanded Library:** Over 140+ HID keys including media, brightness, and OS-specific app launchers.
 
 ---
 
-### 📌 Description
-**KeyStrike** is an ESP32-based BLE HID keyboard emulation tool that allows wireless keystroke injection using Bluetooth Low Energy.
-It provides a CLI interface for Linux and Termux, enabling HID Keyboard Emulation through BLE and an enormous key library.
-
-### ⚙️ Features
-- ESP32 BLE HID Keyboard Emulation.
-- CLI-based control system.
-- Key injection.
-- Huge Key library with Android and desktop controls. (currently IOS is not supported)
-- Lightweight and fast installer.
-- Linux & Termux support.
-- Update system via script.
+### ⚙️ Core Features
+ * **Wireless HID Emulation:** Full Bluetooth Low Energy (BLE) keyboard support.
+ * **Ducky-Plus Syntax:** Familiar Ducky Script base extended with logic and variables.
+ * **Cross-Platform CLI:** Native support for **Linux** and **Termux** (Android).
+ * **Zero-Footprint Cleanup:** Automated memory management that clears variables and functions on exit.
+ * **Persistent Config:** Remembers your ESP32 IP and settings across sessions.
 
 ---
-
-### 📦 Installation
-**🔹 Termux / Android**
+ 
+### 📦 Installation & Setup
+**🔹 Quick Install (Termux & Linux)**
 ```bash
-apt update  
-apt upgrade -y  
-apt install curl -y  
-
-curl -fsL https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh | bash
-```
-**🔹 Linux**
-```bash
-sudo apt update  
-sudo apt upgrade -y  
-sudo apt install curl -y  
-
 curl -fsL https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh | bash
 ```
 
 ---
 
-### 🚀 Commands
-**Run Tool**
-```bash
-keystrike
+**🔹 Usage**
+| Command | Description |
+|---|---|
+| `keystrike` | Launch interactive shell / Run payload |
+| `keystrike -v` | Check current version |
+| `keystrike update` | Pull the latest update |
+| `keystrike uninstall` | Complete removal of KeyStrike |
 
-```
-**🔄 Update**
+---
+
+### 📜 Scripting Example
+KeyStrike v6.0 allows you to write advanced payloads like this:
 ```bash
-keystrike update
+REM Define a function
+FUNCTION OPEN_TERMINAL()
+    TAP LWIN R
+    DELAY 500
+    STRING "cmd"
+    TAP ENTER
+END
+
+OPEN_TERMINAL()
+DELAY 1000
+STRINGLN "echo KeyStrike v6.0 was here."
+
+LOG_OK "Payload Finished at $_TIME"
 ```
-**🗑 Uninstall**
-```bash
-keystrike uninstall
-```
+
+---
+
+### 🛠 Technical Specifications
+ * **Standard:** HID over GATT (HOGP) v1.22
+ * **Backend:** Bash 4.0+ / Python 3.x
+ * **Hardware:** ESP32, ESP32-S3, or ESP32-C3
+ * **Transmission:** 16-bit Consumer Reports & 8-bit Keyboard Boot Reports
 
 ---
 
 ### ⚠️ Safety Notice
-- This project is created for educational and research purposes only.
-- It is not intended for malicious use.
-- The developer does not take responsibility for any misuse of this tool.
-- Users are fully responsible for how they use this software.
-- Unauthorized or harmful use of this tool is strictly discouraged.
+ * This project is created for **educational and research purposes only**.
+ * The developer does not take responsibility for any misuse.
+ * Always obtain permission before testing on devices you do not own.
 
 ---
 
-### 🤝 Contribution
-Contributions are welcome! You can:
- * 🐛 **Report bugs**
- * 💡 **Suggest features**
- * 🛠 **Improve code**
- * 🧩 **Add new key modules**
- * ⚙️ **Improve ESP32 firmware**
+### 🤝 Contributing
+KeyStrike is an evolving platform. We welcome contributions to:
+ * **ESP32 Firmware:** Improving connection stability and latency.
+ * **Key Modules:** Mapping more HID codes for specific layouts (ISO/JIS).
+ * **Payloads:** Sharing creative automation scripts.
 
-### **Steps to contribute:**
- 1. Fork repository
- 2. Create feature branch
- 3. Commit changes
- 4. Push and open pull request
+**Happy Hacking!** ⚡
