@@ -49,7 +49,7 @@ curl -fsL https://raw.githubusercontent.com/zacode123/KeyStrike/main/install.sh 
 KeyStrike v6.0 allows you to write advanced payloads like this:
 ```bash
 REM Define a function
-FUNCTION OPEN_TERMINAL()
+FUNC OPEN_TERMINAL()
     TAP LWIN R
     DELAY 500
     STRING "cmd"
@@ -299,11 +299,11 @@ LOG_ERR "$DATA_ERR"
 
 ### 📌 Definition
 
-*A function is defined using the FUNCTION keyword and terminated with END.*
+*A function is defined using the FUNC keyword and terminated with END.*
 
 **✔ Syntax**
 ```ks
-FUNCTION <NAME>()
+FUNC <NAME>()
     <commands>
 END
 ```
@@ -315,7 +315,7 @@ END
 
 **✔ Example**
 ```ks
-FUNCTION TEST()
+FUNC TEST()
     STRINGLN "Hello from function"
     TAP ENTER
 END
