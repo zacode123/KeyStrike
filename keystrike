@@ -967,7 +967,10 @@ run_logic_block() {
             local block_lines=""
             ((i++))
 
-            while [ $i -lt ${#lines[@]} ] && [[ "${lines[$i]}" != "END" ]]; do
+            while [ $i -lt ${#lines[@]} ]; do
+                local inner_line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
+                [[ "$inner_line" == "END" ]] && break
+                
                 block_lines+="${lines[$i]}"$'\n'
                 ((i++))
             done
@@ -994,12 +997,12 @@ run_logic_block() {
             local found_end=false
             local block_lines=()
             local current_depth=1
-
-            # Capture the full IF/END block
-            start_idx=$i
+            local start_idx=$i
             ((i++))
             while [ $i -lt ${#lines[@]} ]; do
-                inner_line="${lines[$i]}"
+                local raw_line="${lines[$i]}"
+                local inner_line=$(echo "$raw_line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+
                 [[ "$inner_line" == IF* || "$inner_line" == WHILE* || "$inner_line" == FOR* ]] && ((current_depth++))
                 [[ "$inner_line" == "END" ]] && ((current_depth--))
 
@@ -1007,12 +1010,10 @@ run_logic_block() {
                     found_end=true
                     break
                 fi
-                block_lines+=("$inner_line")
+                block_lines+=("$raw_line")
                 ((i++))
             done
 
-            # Evaluate condition using Bash logic
-            # Use (( )) for math or [[ ]] for strings
             if eval "[[ $condition ]]"; then
                 run_logic_block "${block_lines[@]}"
             fi
@@ -1024,7 +1025,10 @@ run_logic_block() {
             local condition="${line#WHILE }"
             local block_lines=()
             ((i++))
-            while [ $i -lt ${#lines[@]} ] && [[ "${lines[$i]}" != "END" ]]; do
+            while [ $i -lt ${#lines[@]} ]; do
+                local inner_line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
+                [[ "$inner_line" == "END" ]] && break
+                
                 block_lines+=("${lines[$i]}")
                 ((i++))
             done
@@ -1041,12 +1045,14 @@ run_logic_block() {
 
         # --- FOR Loop ---
         elif [[ "$line" == FOR* ]]; then
-            # Syntax: FOR $I IN 1..10
             local var_name=$(echo "$line" | awk '{print $2}')
             local range=$(echo "$line" | awk '{print $4}' | sed 's/\.\./ /')
             local block_lines=()
             ((i++))
-            while [ $i -lt ${#lines[@]} ] && [[ "${lines[$i]}" != "END" ]]; do
+            while [ $i -lt ${#lines[@]} ]; do
+                local inner_line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
+                [[ "$inner_line" == "END" ]] && break
+                
                 block_lines+=("${lines[$i]}")
                 ((i++))
             done
