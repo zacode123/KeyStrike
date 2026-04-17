@@ -510,7 +510,7 @@ process_cmd() {
     done
 
     [[ -z "$CMD" || "$CMD" == 'REM '* ]] && return
-    [[ "$CMD == *"$_TIME"* ]] && CMD="${CMD//"$_TIME"/"$(date +%H:%M:%S)"}" && return
+    [[ "$CMD" == *"$_TIME"* ]] && CMD="${CMD//"$_TIME"/"$(date +%H:%M:%S)"}" && return
 
     # ─── CLEAR SCREEN ─────────────────────────────
     [[ "$CMD" == "CLEAR" || "$CMD" == "CLS" ]] && clear && return
