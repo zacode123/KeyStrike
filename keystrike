@@ -1035,7 +1035,6 @@ run_logic_block() {
 
             while eval "[[ $condition ]]"; do
                 run_logic_block "${block_lines[@]}"
-                # Update variables inside the loop condition
                 for var in "${!VARS[@]}"; do
                     condition="${condition//"$var"/"${VARS[$var]}"}"
                 done
