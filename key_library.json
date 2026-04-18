@@ -552,18 +552,6 @@
         "platform": "global",
         "type": "modifier"
     },
-    "LWIN": {
-        "info": "Left Windows/Command key - opens start menu on Windows or Cmd on Mac",
-        "hex": "0xE3",
-        "platform": "desktop",
-        "type": "modifier"
-    },
-    "RWIN": {
-        "info": "Right Windows/Command key - right side Windows/Command modifier",
-        "hex": "0xE7",
-        "platform": "desktop",
-        "type": "modifier"
-    },
     "LGUI": {
         "info": "Left GUI key - left side GUI modifier",
         "hex": "0xE3",
@@ -573,6 +561,30 @@
     "RGUI": {
         "info": "Right GUI key - right side GUI modifier",
         "hex": "0xE7",
+        "platform": "desktop",
+        "type": "modifier"
+    },
+    "CTRL": {
+        "info": "Control key - uses LCTRL (Left Control) internally for keyboard shortcuts (Ctrl+C, Ctrl+V, etc.)",
+        "hex": "0xE0",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "SHIFT": {
+        "info": "Shift key - uses LSHIFT (Left Shift) internally for uppercase and special symbols",
+        "hex": "0xE1",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "ALT": {
+        "info": "Alt key - uses LALT (Left Alt) internally for system shortcuts (Alt+Tab, etc.)",
+        "hex": "0xE2",
+        "platform": "global",
+        "type": "modifier"
+    },
+    "GUI": {
+        "info": "GUI key (Windows/Command key) - uses LGUI (Left GUI) internally for system actions",
+        "hex": "0xE3",
         "platform": "desktop",
         "type": "modifier"
     },
