@@ -402,6 +402,14 @@ get_usage_page() {
 process_cmd() {
     CMD="$1"
 
+    # ─── VARIABLE RESOLUTION ─────────────────────────
+    if ! [[ "$CMD" =~ ^\$[a-zA-Z0-9_]+[[:space:]]*= ]]; then
+        if [[ "$CMD" =~ (\$[_a-zA-Z0-9]+) ]]; then
+            log_err "Variable is not defined: ${BASH_REMATCH[1]}"
+            return
+        fi
+    fi
+
     # ─── LOGGING COMMANDS ─────────────────────────
     if [[ "$CMD" =~ ^LOG_(INFO|OK|ERR)[[:space:]]+(.*)$ ]]; then
         TYPE="${BASH_REMATCH[1]}"
@@ -420,21 +428,23 @@ process_cmd() {
         return
     fi
 
-    if [[ "$CMD" =~ ^(\$[a-zA-Z0-9_]+)[[:space:]]*=[[:space:]]*(.*)$ ]]; then
+        if [[ "$CMD" =~ ^(\$[a-zA-Z0-9_]+)[[:space:]]*=[[:space:]]*(.*)$ ]]; then
         VAR_NAME="${BASH_REMATCH[1]}"
         RIGHT_SIDE="${BASH_REMATCH[2]}"
 
         case "$VAR_NAME" in
-            "\$_VERSION"|"\$_OS"|"\$_INIT_TIME"|"\$_IP"|"\$_PORT")
+            "\$_VERSION"|"\$_INIT_TIME"|"\$_TIME"|"\$_IP"|"\$_PORT")
+                log_err "Access Denied: Cannot modify read-only system variable $VAR_NAME"
                 return ;;
         esac
 
         if [[ "$RIGHT_SIDE" == EXEC\ * ]]; then
             LOCAL_CMD="${RIGHT_SIDE#EXEC }"
-
-            for v in "${!VARS[@]}"; do
-                [[ "$LOCAL_CMD" == *"$v"* ]] && LOCAL_CMD="${LOCAL_CMD//"$v"/"${VARS[$v]}"}"
-            done
+            
+            if [[ -z "$(echo "$LOCAL_CMD" | xargs)" ]]; then
+                log_err "Syntax Error: EXEC command is missing for $VAR_NAME!"
+                return
+            fi
 
             OUT_TMP=$(mktemp)
             ERR_TMP=$(mktemp)
@@ -449,16 +459,17 @@ process_cmd() {
             return
 
         elif [[ "$RIGHT_SIDE" =~ ^\[(.*)\]$ ]]; then
-            ESP_CMD="${BASH_REMATCH[1]}"
-
-            for v in "${!VARS[@]}"; do
-                [[ "$ESP_CMD" == *"$v"* ]] && ESP_CMD="${ESP_CMD//"$v"/"${VARS[$v]}"}"
-            done
+            KEYSTRIKE_CMD="${BASH_REMATCH[1]}"
+            
+            if [[ -z "$(echo "$KEYSTRIKE_CMD" | xargs)" ]]; then
+                log_err "Syntax Error: Command inside brackets [] is empty!"
+                return
+            fi
 
             OUT_TMP=$(mktemp)
             ERR_TMP=$(mktemp)
 
-            process_cmd "$ESP_CMD" >"$OUT_TMP" 2>"$ERR_TMP"
+            process_cmd "$KEYSTRIKE_CMD" >"$OUT_TMP" 2>"$ERR_TMP"
             IFS= read -r -t 2 RESPONSE <&3
 
             [[ -n "$RESPONSE" ]] && echo "$RESPONSE" >> "$OUT_TMP"
@@ -471,6 +482,11 @@ process_cmd() {
 
         else
             VAR_VAL="$RIGHT_SIDE"
+
+            if [[ -z "$VAR_VAL" ]]; then
+                log_err "Syntax Error: Missing value for $VAR_NAME! Use \"\" for empty assignment."
+                return
+            fi
 
             for q in \" \'; do
                 [[ "$VAR_VAL" == "$q"* ]] && VAR_VAL="${VAR_VAL#$q}"
@@ -485,21 +501,23 @@ process_cmd() {
     if [[ "$CMD" == EXEC\ * ]]; then
         LOCAL_CMD="${CMD#EXEC }"
 
-        for v in "${!VARS[@]}"; do
-            [[ "$LOCAL_CMD" == *"$v"* ]] && LOCAL_CMD="${LOCAL_CMD//"$v"/"${VARS[$v]}"}"
-        done
+        if [[ -z "$(echo "$LOCAL_CMD" | xargs)" ]]; then
+            log_err "Syntax Error: EXEC command is empty!"
+            return
+        fi
 
         eval "$LOCAL_CMD"
         VARS["\$EXIT_CODE"]=$?
         return
     fi
 
-    # ─── VARIABLE RESOLUTION ─────────────────────────
-    for var in "${!VARS[@]}"; do
-        if [[ "$CMD" == *"$var"* ]]; then
-            CMD="${CMD//"$var"/"${VARS[$var]}"}"
-        fi
-    done
+    if [[ "$CMD" == EXEC\ * ]]; then
+        LOCAL_CMD="${CMD#EXEC }"
+
+        eval "$LOCAL_CMD"
+        VARS["\$EXIT_CODE"]=$?
+        return
+    fi
 
     [[ -z "$CMD" || "$CMD" == 'REM '* ]] && return
     [[ "$CMD" == *"\$_TIME"* ]] && CMD="${CMD//"$_TIME"/"$(date +%H:%M:%S)"}" && return
