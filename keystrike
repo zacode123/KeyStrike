@@ -1092,7 +1092,7 @@ interactive() {
         input_buffer+=("$CMD")
 
         if [[ $depth -eq 0 ]]; then
-            _run_logic_block 1 "${input_buffer[@]}"
+            run_logic_block 1 "${input_buffer[@]}"
             input_buffer=()
         elif [[ $depth -lt 0 ]]; then
             log_err "Syntax Error: Unexpected 'END' without opening block."
