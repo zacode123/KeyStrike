@@ -493,7 +493,7 @@
         "type": "control_key"
     },
     "MENU": {
-        "info": "Menu button - opens recents on android devices",
+        "info": "Menu button - open device's menu (opens 'recents' on android)",
         "hex": "0x65",
         "platform": "global",
         "type": "control_key"
@@ -505,7 +505,7 @@
         "type": "control_key"
     },
     "SCREENSHOT": {
-        "info": "Screenshot (Print Screen key behavior)",
+        "info": "Take a screenshot",
         "hex": "0x46",
         "platform": "global",
         "type": "control_key"
