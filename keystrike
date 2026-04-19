@@ -907,113 +907,131 @@ process_cmd() {
 }
 
 # ─── Block Parser ───────────────────────────────────────────
-run_logic_block() {
+# Wrapper function to initialize the line counter
+Run_logic_block() {
+    _run_logic_block 1 "$@"
+}
+
+_run_logic_block() {
+    local offset_line=$1
+    shift
     local lines=("$@")
     local i=0
 
     while [ $i -lt ${#lines[@]} ]; do
-        line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
+        local current_line_num=$(( offset_line + i ))
+        local raw_line="${lines[$i]}"
+        local line="${raw_line#"${raw_line%%[![:space:]]*}"}"
+        line="${line%"${line##*[![:space:]]}"}"
+
         [[ -z "$line" || "$line" == 'REM '* ]] && ((i++)) && continue
 
-        # --- FUNCTION DEFINITION ---
-        if [[ "$line" =~ ^FUNC[[:space:]]+([a-zA-Z0-9_]+)\(\)$ ]]; then
-            local func_name="${BASH_REMATCH[1]}"
-            local block_lines=""
+        if [[ "$line" == IF* || "$line" == WHILE* || "$line" == FOR* || "$line" == FUNC* ]]; then
+            local block_type="${line%% *}"
+            local current_depth=1
+            local block_lines=()
+            local start_line=$current_line_num
+            local start_idx=$i
             ((i++))
 
             while [ $i -lt ${#lines[@]} ]; do
-                local inner_line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
-                [[ "$inner_line" == "END" ]] && break
+                local inner_raw="${lines[$i]}"
+                local inner_line="${inner_raw#"${inner_raw%%[![:space:]]*}"}"
+                inner_line="${inner_line%"${inner_line##*[![:space:]]}"}"
 
-                block_lines+="${lines[$i]}"$'\n'
+                [[ "$inner_line" == IF* || "$inner_line" == WHILE* || "$inner_line" == FOR* || "$inner_line" == FUNC* ]] && ((current_depth++))
+                [[ "$inner_line" == "END" ]] && ((current_depth--))
+
+                if [[ $current_depth -eq 0 ]]; then
+                    break
+                fi
+                block_lines+=("$inner_raw")
                 ((i++))
             done
 
-            FUNCTIONS["$func_name"]="$block_lines"
+            if [[ $current_depth -gt 0 ]]; then
+                log_err "Syntax Error: Expected 'END' to close '$block_type' near line $start_line. Did you forget it?"
+                exit 1
+            fi
+            
+            # 1. FUNCTION DEFINITION
+            if [[ "$block_type" == "FUNC" ]]; then
+                if [[ "$line" =~ ^FUNC[[:space:]]+([a-zA-Z0-9_]+)\(\)$ ]]; then
+                    FUNCTIONS["${BASH_REMATCH[1]}"]=$(printf "%s\n" "${block_lines[@]}")
+                else
+                    log_err "Syntax Error: Invalid function syntax at line $start_line. Expected: FUNC name()"
+                    exit 1
+                fi
+
+            # 2. IF / ELSIF / ELSE
+            elif [[ "$block_type" == "IF" ]]; then
+                local condition="${line#IF }"
+                if [[ -z "$condition" ]]; then
+                    log_err "Logic Error: You forgot the condition for the IF statement at line $start_line!"
+                    exit 1
+                fi
+                
+                eval "[[ $condition ]]" 2>/dev/null
+                if [[ $? -eq 2 ]]; then
+                    log_err "Logic Error: Malformed IF condition '$condition' at line $start_line."
+                    exit 1
+                fi
+
+                if eval "[[ $condition ]]"; then
+                    _run_logic_block $(( start_line + 1 )) "${block_lines[@]}"
+                fi
+
+            # 3. WHILE LOOP
+            elif [[ "$block_type" == "WHILE" ]]; then
+                local condition="${line#WHILE }"
+                if [[ -z "$condition" ]]; then
+                    log_err "Logic Error: Infinite loop risk! Missing condition in WHILE at line $start_line."
+                    exit 1
+                fi
+
+                eval "[[ $condition ]]" 2>/dev/null
+                if [[ $? -eq 2 ]]; then
+                    log_err "Logic Error: Broken WHILE condition '$condition' at line $start_line."
+                    exit 1
+                fi
+
+                while eval "[[ $condition ]]"; do
+                    _run_logic_block $(( start_line + 1 )) "${block_lines[@]}"
+                done
+
+            # 4. FOR LOOP
+            elif [[ "$block_type" == "FOR" ]]; then
+                local params=($line)
+                local var_name="${params[1]}"
+                local range="${params[3]}"
+                local start_val="${range%%..*}"
+                local end_val="${range##*..}"
+
+                # Annoying Error: Bad Range formatting
+                if ! [[ "$start_val" =~ ^-?[0-9]+$ && "$end_val" =~ ^-?[0-9]+$ ]]; then
+                    log_err "Syntax Error: Invalid FOR loop range at line $start_line. Expected start..end, got '$range'."
+                    exit 1
+                fi
+
+                for (( v=start_val; v<=end_val; v++ )); do
+                    VARS["$var_name"]=$v
+                    _run_logic_block $(( start_line + 1 )) "${block_lines[@]}"
+                done
+            fi
+
             ((i++))
             continue
-
+            
         # --- FUNCTION CALL ---
         elif [[ "$line" =~ ^([a-zA-Z0-9_]+)\(\)$ ]]; then
             local func_name="${BASH_REMATCH[1]}"
             if [[ -n "${FUNCTIONS[$func_name]}" ]]; then
                 IFS=$'\n' read -rd '' -a FUNC_BODY <<< "${FUNCTIONS[$func_name]}"
-                run_logic_block "${FUNC_BODY[@]}"
+                _run_logic_block 1 "${FUNC_BODY[@]}"
             else
-                log_err "Undefined function: $func_name"
+                log_err "Reference Error: Calling undefined function '$func_name()' at line $current_line_num!"
+                exit 1
             fi
-            ((i++))
-            continue
-
-        # --- IF / ELSIF / ELSE Logic ---
-        elif [[ "$line" == IF* ]]; then
-            local condition="${line#IF }"
-            local found_end=false
-            local block_lines=()
-            local current_depth=1
-            local start_idx=$i
-            ((i++))
-            while [ $i -lt ${#lines[@]} ]; do
-                local raw_line="${lines[$i]}"
-                local inner_line=$(echo "$raw_line" | sed 's/^[ \t]*//;s/[ \t]*$//')
-
-                [[ "$inner_line" == IF* || "$inner_line" == WHILE* || "$inner_line" == FOR* ]] && ((current_depth++))
-                [[ "$inner_line" == "END" ]] && ((current_depth--))
-
-                if [[ $current_depth -eq 0 ]]; then
-                    found_end=true
-                    break
-                fi
-                block_lines+=("$raw_line")
-                ((i++))
-            done
-
-            if eval "[[ $condition ]]"; then
-                run_logic_block "${block_lines[@]}"
-            fi
-            ((i++))
-            continue
-
-        # --- WHILE Loop ---
-        elif [[ "$line" == WHILE* ]]; then
-            local condition="${line#WHILE }"
-            local block_lines=()
-            ((i++))
-            while [ $i -lt ${#lines[@]} ]; do
-                local inner_line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
-                [[ "$inner_line" == "END" ]] && break
-
-                block_lines+=("${lines[$i]}")
-                ((i++))
-            done
-
-            while eval "[[ $condition ]]"; do
-                run_logic_block "${block_lines[@]}"
-                for var in "${!VARS[@]}"; do
-                    condition="${condition//"$var"/"${VARS[$var]}"}"
-                done
-            done
-            ((i++))
-            continue
-
-        # --- FOR Loop ---
-        elif [[ "$line" == FOR* ]]; then
-            local var_name=$(echo "$line" | awk '{print $2}')
-            local range=$(echo "$line" | awk '{print $4}' | sed 's/\.\./ /')
-            local block_lines=()
-            ((i++))
-            while [ $i -lt ${#lines[@]} ]; do
-                local inner_line=$(echo "${lines[$i]}" | sed 's/^[ \t]*//;s/[ \t]*$//')
-                [[ "$inner_line" == "END" ]] && break
-
-                block_lines+=("${lines[$i]}")
-                ((i++))
-            done
-
-            for val in $(seq $range); do
-                VARS["$var_name"]=$val
-                run_logic_block "${block_lines[@]}"
-            done
             ((i++))
             continue
         fi
