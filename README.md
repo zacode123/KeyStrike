@@ -100,17 +100,21 @@ LOG_INFO Hello this is $VAR
 
 **✔ Behavior**
 
-* Variables are created on first assignment
+* Variables are created on first assignment 
 * No declaration required
 * Values can be reassigned anytime
 * Variables are always global and is accessible across the entire script
 
 **✔ Notes**
 
-* Must start with $
-* Case-sensitive
-* Quoting is optional in general, not just for variables
-* Variables can be used directly inside text
+* Must start with the **$** symbol.
+* Variable names are **case-sensitive**.
+* All variable types are stored internally as **Strings**.
+* Integer comparison works by converting the String to an integer before evaluating (can also be done using string comparison).
+* All other comparisons should be performed as **string comparisons**.
+* Quoting is **optional** in general, applying to both variables and commands.
+* You **must** use quotes when assigning or checking for an **empty value**.
+* Variables can be expanded **directly** inside text using the **$VAR_NAME** syntax. 
 
 ---
 
@@ -139,6 +143,7 @@ END
 
 **✔ Notes**
 
+* Uses basic bash conditions
 * Range is inclusive (1..3 → runs 3 times)
 * Loop variable ($I) is automatically incremented
 * Supports use inside functions and nested blocks
@@ -166,14 +171,10 @@ END
 ```
 **✔ Notes**
 
+* Uses basic bash conditions
 * Condition is evaluated before each iteration
 * Loop continues until condition becomes false
 * Variables must be updated manually inside the loop
-
----
-
-Good catch — here’s the correct documentation:
-
 
 ---
 
@@ -209,6 +210,7 @@ END
 
 **✔ Behavior**
 
+* Uses basic bash conditions
 * Conditions are evaluated top to bottom
 * First matching block executes
 * Remaining blocks are skipped
