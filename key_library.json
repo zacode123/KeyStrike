@@ -1,5 +1,5 @@
 {
-    "info": "Production-Ready BLE HID Key Library - Global keys (), Android-specific, Desktop-specific, Numbers (0-9), Letters (A-Z/a-z), Modifiers",
+    "info": "KeyStrike Key Library - Global keys (Works on both, Android & Desktop), Android-specific, Desktop-specific, Numbers (0-9), Letters (A-Z/a-z), Modifiers",
     "PLAY": {
         "info": "Start media playback (HID Consumer Play)",
         "hex": "0x00B0",
